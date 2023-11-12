@@ -10,11 +10,10 @@ import HomePage from './components/pages/Home/HomePage';
 const App: React.FC = () => {
   return (
     <div>
-      {/* Render the main container components for each page */}
+      <HomePage />
       <AboutPage />
       <AuthPage />
       <DashboardPage />
-      <HomePage />
     </div>
   );
 };

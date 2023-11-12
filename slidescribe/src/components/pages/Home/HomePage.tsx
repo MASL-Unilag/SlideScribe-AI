@@ -1,11 +1,14 @@
 import React from 'react';
 
+import ContactSection from './ContactSection';
 
 
-export default function AboutPage() {
+
+export default function HomePage() {
     return (
         <div>
-        <h1>About Page</h1>
+        <h1>Home Page</h1>
+        <ContactSection />
         </div>
     );
 }
