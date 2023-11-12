@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './styles/tailwind.css';
 
-// Import main container components for each page
 import AboutPage from './components/pages/About/AboutPage';
 import AuthPage from './components/pages/Auth/AuthPage';
 import DashboardPage from './components/pages/Dashboard/DashboardPage';
