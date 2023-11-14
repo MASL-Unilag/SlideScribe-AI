@@ -1,13 +1,14 @@
 
-import ContactSection from './ContactSection';
+// import ContactSection from './ContactSection';
 
 
 
 export default function HomePage() {
     return (
         <div>
-        <h1>Home Page</h1>
-        <ContactSection />
+        <h1>
+            Home Page
+        </h1>
         </div>
     );
 }
