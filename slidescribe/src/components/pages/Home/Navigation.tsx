@@ -1,4 +1,4 @@
-import logo from './assets/logo.svg';
+// import logo from './assets/logo.svg';
 import './styles/tailwind.css';
 
 
@@ -11,7 +11,7 @@ function Navigation() {
         <nav className="flex gap-4 items-center flex-shrink-0">
         <ul>
             <li className="h-6">
-                <img src={logo} alt="Slides Logo" />
+                {/* <img src={logo} alt="Slides Logo" /> */}
             </li>
 
             <li>
