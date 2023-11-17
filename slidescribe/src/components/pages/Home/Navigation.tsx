@@ -1,29 +1,51 @@
+import logo from './assets/logo.svg';
+import './styles/tailwind.css';
+
+
+
+
+
+
 function Navigation() {
     return (
-        <nav className="max-h-screen flex-gap">
+        <nav className="flex gap-4 items-center flex-shrink-0">
         <ul>
-            <li>
-                <img src="/slidescribe/src/assets/Small.svg" alt="Slides Logo" />
+            <li className="h-6">
+                <img src={logo} alt="Slides Logo" />
             </li>
 
             <li>
-                Slidescribe
+                <a href="">
+                    Slidescribe
+                </a>
             </li>
 
             <li>
-                Home
+                <a href="">
+                    Home
+                </a>
             </li>
 
             <li>
-                About Us
+                <a href="">
+                    About Us
+                </a>
             </li>
 
             <li>
-                Login
+                <button>
+                    <a href="">
+                        Login
+                    </a>
+                </button>
             </li>
 
             <li>
-                Get started for free
+                <button>
+                    <a href="">
+                        Get started for free
+                    </a>
+                </button>
             </li>
 
         </ul>
