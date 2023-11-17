@@ -1,5 +1,5 @@
 // import logo from './assets/logo.svg';
-import './styles/tailwind.css';
+
 
 
 
