@@ -1,5 +1,5 @@
 // import GetSection from "./GetSection";
-import Navigation from "./Navigation";
+import Navigation from "../../organisms/HomeNavigation";
 
 export default function HomePage() {
     return (
