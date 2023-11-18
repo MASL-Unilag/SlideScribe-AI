@@ -1,3 +1,6 @@
+// Root component where routing and context providers are typically set up
+
+
 function App() {
   return (
     <div className="max-h-screen">
