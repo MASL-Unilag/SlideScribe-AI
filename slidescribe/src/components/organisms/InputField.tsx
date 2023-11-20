@@ -1,6 +1,18 @@
-import styles from "./InputField.module.css";
+type InputProps = {
+  value: string;
+  type: "email" | "password";
+  onChange: () => void;
+  placeholder: string;
+  str: string;
+};
 
-const InputField = ({ value, onChange, placeholder, str, type }) => {
+const InputField: React.FC<InputProps> = ({
+  value,
+  type,
+  onChange,
+  placeholder,
+  str,
+}) => {
   return (
     <input
       value={value}
@@ -10,7 +22,6 @@ const InputField = ({ value, onChange, placeholder, str, type }) => {
       id={str}
       name={str}
       autoComplete={str}
-      className={styles.inputField}
       required
     ></input>
   );
