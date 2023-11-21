@@ -1,7 +1,7 @@
 type InputProps = {
   value: string;
   type: "email" | "password";
-  onChange: () => void;
+  onChange?: () => void;
   placeholder: string;
   str: string;
 };
@@ -15,6 +15,7 @@ const InputField: React.FC<InputProps> = ({
 }) => {
   return (
     <input
+      className="border rounded-md w-full outline-none px-4 py-3 max-w-md text-base font-normal text-gray-400 focus:outline-none focus:border focus:border-violet-800"
       value={value}
       onChange={onChange}
       placeholder={placeholder}
