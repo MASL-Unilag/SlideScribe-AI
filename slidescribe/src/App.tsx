@@ -1,13 +1,11 @@
+import HomePage from "./components/pages/Home/HomePage";
 import Header from "./components/organisms/Header";
-import SignUpAuthPage from "./components/pages/Auth/SignUpAuthPage";
-// import LoginAuthPage from "./components/pages/Auth/LoginAuthPage";
 
 function App() {
   return (
     <div className="max-h-screen">
       <Header />
-      <SignUpAuthPage />
-      {/* <LoginAuthPage /> */}
+      <HomePage />
     </div>
   );
 }

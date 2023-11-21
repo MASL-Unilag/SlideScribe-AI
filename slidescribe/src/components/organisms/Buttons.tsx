@@ -15,9 +15,9 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   styleHolder,
 }) => {
-  const buttonClasses = `px-3 py-2 rounded text-sm font-medium cursor-pointer w-full ${
+  const buttonClasses = `px-3 py-2 rounded text-sm font-medium cursor-pointer ${
     type === "primary"
-      ? "bg-indigo-500 border-solid border border-indigo-500 text-white"
+      ? "bg-indigo-500 border-solid border border-indigo-500"
       : type === "secondary"
       ? "bg-indigo-200 border-solid border border-indigo-800 text-indigo-800"
       : "bg-white border-solid border border-white text-indigo-800"
