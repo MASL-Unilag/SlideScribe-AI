@@ -1,7 +1,7 @@
 import Button from "./Buttons";
 import logo from "../../assets/logo.svg";
 
-const Header = () => {
+const Navigation = () => {
   return (
     <div className="flex items-center justify-between text-sm font-medium py-4 px-44 border-b">
       <div className="flex gap-3 items-center">
@@ -21,4 +21,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navigation;
