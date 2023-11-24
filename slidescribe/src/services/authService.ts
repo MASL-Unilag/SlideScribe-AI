@@ -44,7 +44,7 @@ class AuthService {
 			const data = await response.json();
 			return data; //Returns token for authorization
 		} catch (err) {
-			throw new Error("Login Failed");
+			throw new Error("Signup Failed");
 		}
 	}
 
