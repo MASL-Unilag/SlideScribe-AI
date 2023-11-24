@@ -17,10 +17,10 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const buttonClasses = `px-3 py-2 rounded text-sm font-medium cursor-pointer w-full ${
     type === "primary"
-      ? "bg-indigo-500 border-solid border border-indigo-500 text-white"
+      ? "bg-purple-300 border-solid border border-purple-400 text-neutral-0 hover:bg-purple-500"
       : type === "secondary"
-      ? "bg-indigo-200 border-solid border border-indigo-800 text-indigo-800"
-      : "bg-white border-solid border border-white text-indigo-800"
+      ? "bg-purple-50 border-solid border border-purple-400 text-purple-400 hover:bg-purple-500 hover:text-neutral-0"
+      : "bg-neutral-0 border-solid border-neutral-0 text-purple-400 hover:bg-purple-50 hover:border-purple-50"
   }  
   ${styleHolder}`;
 
