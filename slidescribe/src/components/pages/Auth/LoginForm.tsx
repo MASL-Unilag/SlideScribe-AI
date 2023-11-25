@@ -3,10 +3,13 @@ import Button from "../../organisms/Buttons";
 
 export default function LoginForm() {
   return (
-    <div className="flex flex-col gap-10 max-w-xl p-16 m-auto border rounded-md bg-white min-w-[534px]">
+    <div className="flex flex-col gap-10 max-w-xl p-16 m-auto border border-neutral-50 rounded-md bg-neutral-0 min-w-[534px]">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col">
-          <label htmlFor="email" className="mb-2 w-fit">
+          <label
+            htmlFor="email"
+            className="mb-2 w-fit text-neutral-700 font-medium"
+          >
             Email address
           </label>
           <InputField
@@ -18,7 +21,10 @@ export default function LoginForm() {
         </div>
 
         <div className="flex flex-col w-full">
-          <label htmlFor="password" className="mb-2 w-fit">
+          <label
+            htmlFor="password"
+            className="mb-2 w-fit text-neutral-700 font-medium"
+          >
             Password
           </label>
           <InputField

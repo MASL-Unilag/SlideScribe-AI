@@ -15,7 +15,7 @@ const InputField: React.FC<InputProps> = ({
 }) => {
   return (
     <input
-      className="border rounded-md w-full outline-none px-4 py-3 max-w-md text-base font-normal text-gray-400 focus:outline-none focus:border focus:border-violet-800"
+      className="border border-neutral-50 rounded-md w-full outline-none px-4 py-3 max-w-md text-base font-normal text-neutral-300 focus:outline-none focus:border focus:border-purple-400"
       value={value}
       onChange={onChange}
       placeholder={placeholder}

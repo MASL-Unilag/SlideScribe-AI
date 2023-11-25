@@ -7,7 +7,7 @@ function App() {
     <div className="max-h-screen">
       <HomePage />
       <AuthPage />
-      <AboutPage />
+      {/* <AboutPage /> */}
     </div>
   );
 }
