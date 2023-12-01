@@ -34,3 +34,4 @@ The project's key differentiators include features actively selling the product,
 | [Mubarak Rabiu](https://github.com/mubzie) | Design Lead and Development |
 | [Fuad Adegoke](https://github.com/ALIPHATICHYD) | Product and Frontend Development Lead |
 | [Abdulrasaq Noibi](https://github.com/Olixc) | Frontend Development |
+| [Semako Zosu ](https://github.com/Semako123)| Frontend Development  |
