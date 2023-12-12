@@ -20,6 +20,12 @@ export default function RegisterForm() {
 			[e.target.name]: e.target.value,
 		}));
 	};
+
+	const handleSignUp = async () => {
+		const res = await authService.signup(userData);
+		console.log(res);
+	};
+	
 	return (
 		<div className="flex flex-col gap-10 max-w-xl p-16 m-auto border border-neutral-50 rounded-md bg-neutral-0 min-w-[534px]">
 			<div className="flex flex-col gap-8">
@@ -90,7 +96,9 @@ export default function RegisterForm() {
 				<span className="text-center font-medium text-neutral-400 cursor-pointer hover:underline hover:text-neutral-700">
 					By signing up, you agree to our terms of use.
 				</span>
-				<Button type="primary">Sign up</Button>
+				<Button type="primary" onClick={handleSignUp}>
+					Sign up
+				</Button>
 			</div>
 		</div>
 	);
