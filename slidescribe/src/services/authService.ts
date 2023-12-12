@@ -8,7 +8,7 @@ class AuthService {
 
 	async login(userData: AuthUserData) {
 		try {
-			const response = await fetch(`${this.apiUrl}`, {
+			const response = await fetch(`${this.apiUrl}/sign-in`, {
 				method: "POST",
 				headers: {
 					"Content-type": "application/json",
@@ -29,7 +29,7 @@ class AuthService {
 
 	async signup(userData: AuthUserData) {
 		try {
-			const response = await fetch(`${this.apiUrl}`, {
+			const response = await fetch(`${this.apiUrl}/sign-up`, {
 				method: "POST",
 				headers: {
 					"Content-type": "application/json",
@@ -50,12 +50,12 @@ class AuthService {
 
 	async logout(token: string) {
 		try {
-			const response = await fetch(`${this.apiUrl}`, {
+			const response = await fetch(`${this.apiUrl}/sign-out`, {
 				method: "POST",
 				headers: {
 					"Content-type": "application/json",
 				},
-				body: JSON.stringify({token}),
+				body: JSON.stringify({ token }),
 			});
 
 			if (!response.ok) {
