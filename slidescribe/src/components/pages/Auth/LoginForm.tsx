@@ -4,6 +4,7 @@ import { AuthUserData } from "../../../services/@types/authTypes";
 import { useState } from "react";
 import AuthService from "../../../services/authService";
 import apiEndpoints from "../../../constants/apiEndpoints";
+import useAuth from "../../../hooks/useAuth";
 
 export default function LoginForm() {
 	const authService = new AuthService(apiEndpoints.auth);
@@ -11,6 +12,7 @@ export default function LoginForm() {
 		password: "",
 		email: "",
 	});
+	const { saveToken } = useAuth();
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUserData((prevUserData) => ({
@@ -19,9 +21,22 @@ export default function LoginForm() {
 		}));
 	};
 
-	const handleLogin = async() => {
-		const res = await authService.login({email:userData.email, password:userData.password});
-		console.log(res);
+	const handleLogin = async () => {
+		try {
+			const res = await authService.login({
+				email: userData.email,
+				password: userData.password,
+			});
+
+			if (!res.ok) {
+				throw new Error("Invalid user credentials");
+			}
+
+			const data = await res.json().data;
+			saveToken(data.tokens);
+		} catch (err: any) {
+			console.error("Login Error:", err.message);
+		}
 	};
 	return (
 		<div className="flex flex-col gap-10 max-w-xl p-16 m-auto border border-neutral-50 rounded-md bg-neutral-0 min-w-[534px]">
