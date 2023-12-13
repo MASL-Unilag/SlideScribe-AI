@@ -22,10 +22,14 @@ export default function RegisterForm() {
 	};
 
 	const handleSignUp = async () => {
-		const res = await authService.signup(userData);
-		console.log(res);
+		try {
+			const res = await authService.signup(userData);
+			console.log(res.json());
+		} catch (err: any) {
+			console.error(err.message);
+		}
 	};
-	
+
 	return (
 		<div className="flex flex-col gap-10 max-w-xl p-16 m-auto border border-neutral-50 rounded-md bg-neutral-0 min-w-[534px]">
 			<div className="flex flex-col gap-8">

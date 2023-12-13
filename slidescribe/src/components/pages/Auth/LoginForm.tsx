@@ -28,12 +28,11 @@ export default function LoginForm() {
 				password: userData.password,
 			});
 
-			if (!res.ok) {
+			if (!res) {
 				throw new Error("Invalid user credentials");
 			}
 
-			const data = await res.json().data;
-			saveToken(data.tokens);
+			saveToken(res.tokens);
 		} catch (err: any) {
 			console.error("Login Error:", err.message);
 		}
