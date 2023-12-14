@@ -5,6 +5,7 @@ import { useState } from "react";
 import AuthService from "../../../services/authService";
 import apiEndpoints from "../../../constants/apiEndpoints";
 import useAuth from "../../../hooks/useAuth";
+import validateInput from "../../../utils/validateInput";
 
 export default function LoginForm() {
 	const authService = new AuthService(apiEndpoints.auth);
@@ -22,19 +23,23 @@ export default function LoginForm() {
 	};
 
 	const handleLogin = async () => {
-		try {
-			const res = await authService.login({
-				email: userData.email,
-				password: userData.password,
-			});
+		const err = validateInput(userData);
+		console.log(err)
+		if (Object.keys(err).length == 0) {
+			try {
+				const res = await authService.login({
+					email: userData.email,
+					password: userData.password,
+				});
 
-			if (!res) {
-				throw new Error("Invalid user credentials");
+				if (!res) {
+					throw new Error("Invalid user credentials");
+				}
+
+				saveToken(res.tokens);
+			} catch (err: any) {
+				console.error("Login Error:", err.message);
 			}
-
-			saveToken(res.tokens);
-		} catch (err: any) {
-			console.error("Login Error:", err.message);
 		}
 	};
 	return (
