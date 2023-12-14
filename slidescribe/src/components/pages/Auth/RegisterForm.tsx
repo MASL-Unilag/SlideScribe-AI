@@ -4,6 +4,7 @@ import { AuthUserData } from "../../../services/@types/authTypes";
 import { useState } from "react";
 import AuthService from "../../../services/authService";
 import apiEndpoints from "../../../constants/apiEndpoints";
+import validateInput from "../../../utils/validateInput";
 
 export default function RegisterForm() {
 	const authService = new AuthService(apiEndpoints.auth);
@@ -22,11 +23,15 @@ export default function RegisterForm() {
 	};
 
 	const handleSignUp = async () => {
-		try {
-			const res = await authService.signup(userData);
-			console.log(res.json());
-		} catch (err: any) {
-			console.error(err.message);
+		const err = validateInput(userData);
+		console.log(err)
+		if (Object.keys(err).length == 0) {
+			try {
+				const res = await authService.signup(userData);
+				console.log(res.json());
+			} catch (err: any) {
+				console.error(err.message);
+			}
 		}
 	};
 
