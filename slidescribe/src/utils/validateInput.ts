@@ -1,41 +1,41 @@
-import { AuthUserData } from "../services/@types/authTypes";
+import { object, string } from "yup";
 
-interface ValidateError {
-	firstName?: string;
-	lastName?: string;
-	email?: string;
-	password?: string;
-}
+export const SignUpSchema = object({
+	firstName: string()
+		.required()
+		.min(3, "First name must be greater than two characters")
+		.max(16, "First name must be less than 16 characters"),
+	lastName: string()
+		.required("Last name is required")
+		.min(3, "Last name must be greater than two characters")
+		.max(16, "Last name must be less than 16 characters"),
+	email: string().email().required("Email is required"),
+	password: string()
+		.required("Password is required")
+		.min(8, "Password must be greater than 8 characters")
+		.matches(/^(?=.*\d)/, "Password must contain at least one digit")
+		.matches(
+			/^(?=.*[a-z])/,
+			"Password must contain at least one lowercase letter"
+		)
+		.matches(
+			/^(?=.*[A-Z])/,
+			"Password must contain at least one uppercase letter"
+		),
+});
 
-const validateInput = ({
-	firstName,
-	lastName,
-	email,
-	password,
-}: AuthUserData) => {
-	const errors: ValidateError = {};
-
-	const userNameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-
-	if (firstName && !userNameRegex.test(firstName)) {
-		errors.firstName =
-			"First name must be alphanumeric with underscores or hyphens, 3-16 characters long.";
-	}
-	if (lastName && !userNameRegex.test(lastName)) {
-		errors.lastName =
-			"Last name must be alphanumeric with underscores or hyphens, 3-16 characters long.";
-	}
-	if (!email || !emailRegex.test(email)) {
-		errors.email = "Please enter a valid email address";
-	}
-	if (!password || !passwordRegex.test(password)) {
-		errors.password =
-			"Password must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long.";
-	}
-
-	return errors;
-};
-
-export default validateInput;
+export const LogInSchema = object({
+	email: string().email().required("Email is required"),
+	password: string()
+		.required("Password is required")
+		.min(8, "Password must be greater than 8 characters")
+		.matches(/^(?=.*\d)/, "Password must contain at least one digit")
+		.matches(
+			/^(?=.*[a-z])/,
+			"Password must contain at least one lowercase letter"
+		)
+		.matches(
+			/^(?=.*[A-Z])/,
+			"Password must contain at least one uppercase letter"
+		),
+});
