@@ -1,5 +1,6 @@
 import LoginForm from "./LoginForm";
 import logo from "../../../assets/logo.svg";
+import { Link } from "react-router-dom";
 
 export default function LoginAuthPage() {
   return (
@@ -19,7 +20,9 @@ export default function LoginAuthPage() {
           <p className="text-sm font-medium text-neutral-700">
             Don't have an accout?
             <span className="underline cursor-pointer pl-1 text-neutral-900">
-              Sign up
+              <Link to="/signup" className="font-medium cursor-pointer hover:underline">
+                    Sign Up
+              </Link>
             </span>
           </p>
         </div>
