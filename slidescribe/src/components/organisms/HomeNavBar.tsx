@@ -1,5 +1,6 @@
 import Button from "./Buttons";
 import logo from "../../assets/logo.svg";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   return (
@@ -10,12 +11,24 @@ const Navigation = () => {
 
       <ul className="flex gap-2">
         <li className="px-3 py-2 cursor-pointer border-b-2 border-purple-400 text-neutral-900">Home</li>
-        <li className="px-3 py-2 cursor-pointer text-neutral-900">About Us</li>
+        <li className="px-3 py-2 cursor-pointer text-neutral-900">
+          <Link to="/about">
+            About Us
+          </Link>
+        </li>
       </ul>
 
       <div className="flex gap-2">
-        <Button type="tertiary">Login</Button>
-        <Button type="secondary">Get started for free</Button>
+        <Button variant="tertiary">
+            <Link to="/login">
+                      Login
+            </Link>
+        </Button>
+        <Button variant="secondary">
+              <Link to="/signup">
+              Get started for free
+              </Link>
+          </Button>
       </div>
     </div>
   );

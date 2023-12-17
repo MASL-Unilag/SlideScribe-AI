@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/tailwind.css";
 import "./constants/apiEndpoints";
-import "./constants/route";
 import App from "./App";
 
 const root = document.getElementById("root");

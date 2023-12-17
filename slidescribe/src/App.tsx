@@ -1,13 +1,13 @@
-import AboutPage from "./components/pages/About/AboutPage";
-import AuthPage from "./components/pages/Auth/AuthPage";
-import HomePage from "./components/pages/Home/HomePage";
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './route';
+
 
 function App() {
   return (
     <div className="max-h-screen">
-      <HomePage />
-      <AuthPage />
-      {/* <AboutPage /> */}
+      <Router>
+        <Routes />
+      </Router>
     </div>
   );
 }
