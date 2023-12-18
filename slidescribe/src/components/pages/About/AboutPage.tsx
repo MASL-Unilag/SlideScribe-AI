@@ -1,8 +1,11 @@
 import backgroundImage from "../../../assets/images/team_image.png";
+import Navigation from "../../organisms/HomeNavBar";
 
 export default function AboutPage() {
   return (
-    <div
+    <>
+     <Navigation />
+     <div
       className="py-8 px-44 bg-[#FAFBFC] pt-20 flex flex-col
     max-[1200px]:px-20 max-[800px]:px-10
     "
@@ -63,6 +66,8 @@ export default function AboutPage() {
         </div>
       </div>
     </div>
+    
+    </>
   );
 }
 
