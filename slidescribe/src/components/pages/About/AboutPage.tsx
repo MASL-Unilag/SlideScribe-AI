@@ -2,7 +2,11 @@ import backgroundImage from "../../../assets/images/team_image.png";
 
 export default function AboutPage() {
   return (
-    <div className="py-8 px-44 bg-[#FAFBFC] pt-20 flex flex-col">
+    <div
+      className="py-8 px-44 bg-[#FAFBFC] pt-20 flex flex-col
+    max-[1200px]:px-20 max-[800px]:px-10
+    "
+    >
       <div className="mb-28">
         <h1 className="text-3xl font-semibold text-[#7b3cff] text-center">
           We are a team of enthusiastic students that
@@ -20,7 +24,11 @@ export default function AboutPage() {
         <h1 className="text-3xl font-semibold text-[#7b3cff] mb-16">
           Our Core Value
         </h1>
-        <div className="cards grid grid-cols-3 gap-12">
+        <div
+          className="cards grid grid-cols-3 gap-12
+          max-[1200px]:grid-cols-2 max-[800px]:grid-cols-1
+        "
+        >
           {about_data.map((data) => (
             <AboutCard title={data.title} body={data.body} key={data.title} />
           ))}
