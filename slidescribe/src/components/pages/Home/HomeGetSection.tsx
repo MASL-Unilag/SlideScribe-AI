@@ -2,32 +2,27 @@ import {CSSProperties} from "react";
 import {Link} from "react-router-dom";
 import Button from "../../organisms/Button.tsx";
 import Styles from "../../../styles";
+import useMediaQuery from "../../../styles/mediaQuery.ts";
 
 export default function HomeGetSection() {
+    const isSmallScreen = useMediaQuery('(max-width: 900px)');
+
     const sectionStyle: CSSProperties = {
-        "@media (maxWidth: 900px)": {
-            padding: "0 1rem",
-        }
+        padding: isSmallScreen ? "0 1.56rem " : "0",
     }
 
     const h1Style: CSSProperties = {
         fontSize: "1.75rem",
         fontWeight: "600",
         textAlign: "center",
-        width: "47%",
-        "@media (maxWidth: 900px)": {
-            width: "100%",
-        },
+        width: isSmallScreen ? "100%" : "47%",
         ...Styles.textDecorated
     }
 
     const pStyle: CSSProperties = {
         fontSize: "0.875rem",
         textAlign: "center",
-        width: "35%",
-        "@media (maxWidth: 900px)": {
-            width: "100%",
-        }
+        width: isSmallScreen ? "100%" : "35%",
     }
 
     return (
