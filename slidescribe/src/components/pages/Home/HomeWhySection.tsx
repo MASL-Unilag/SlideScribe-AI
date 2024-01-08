@@ -45,7 +45,7 @@ export default function HomeWhySection() {
 
     const h1Style: CSSProperties = {
         fontSize: "1.625rem",
-        fontWeight: "600",
+        fontWeight: "500",
         textAlign: "center",
         marginBottom: "1.25rem",
         ...Styles.textDecorated
