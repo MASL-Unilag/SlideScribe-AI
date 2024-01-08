@@ -1,6 +1,7 @@
 import Navigation from "../../organisms/HomeNavBar";
 import HomeGetSection from "./HomeGetSection.tsx";
 import HomeInitiative from "./HomeInitiative.tsx";
+import HomeWhySection from "./HomeWhySection.tsx";
 
 export default function HomePage() {
     return (
@@ -8,6 +9,7 @@ export default function HomePage() {
             <Navigation/>
             <HomeGetSection/>
             <HomeInitiative/>
+            <HomeWhySection/>
         </div>
     );
 }
