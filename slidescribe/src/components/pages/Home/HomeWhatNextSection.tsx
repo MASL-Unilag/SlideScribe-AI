@@ -4,7 +4,7 @@ import Button from "../../organisms/Button.tsx";
 import Styles from "../../../styles";
 import useMediaQuery from "../../../styles/mediaQuery.ts";
 
-export default function HomeGetSection() {
+export default function HomeWhatNextSection() {
     const isSmallScreen = useMediaQuery('(max-width: 900px)');
 
     const sectionStyle: CSSProperties = {
@@ -13,15 +13,13 @@ export default function HomeGetSection() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        margin: "4rem 0"
+        margin: "10rem 0"
     }
 
     const h1Style: CSSProperties = {
-        fontSize: "1.75rem",
-        fontWeight: "600",
+        fontSize: "1.625rem",
+        fontWeight: "500",
         textAlign: "center",
-        width: isSmallScreen ? "100%" : "47%",
-        marginBottom: "1.5rem",
         ...Styles.textDecorated
     }
 
@@ -29,18 +27,16 @@ export default function HomeGetSection() {
         fontSize: "0.875rem",
         textAlign: "center",
         width: isSmallScreen ? "100%" : "35%",
-        marginBottom: "1.75rem"
+        marginTop: "1.25rem",
+        marginBottom: "2.5rem"
     }
 
     return (
         <section style={sectionStyle}>
-            <h1 style={h1Style}>
-                Your notes, converted to a slide by our
-                advanced and most powerful AI
-            </h1>
+            <h1 style={h1Style}>What next?</h1>
             <p style={pStyle}>
-                Upload your notes, and let our powerful AI do the conversion for you automatically.
-                You will never have to worry about outdated material.
+                If you are like us, that have once faced these problems that we just unraveled and
+                our solutions seems interesting to you, this is the time to give a shot.
             </p>
             <div className="flex gap-6">
                 <Link to="/signup">
@@ -49,7 +45,7 @@ export default function HomeGetSection() {
                     </Button>
                 </Link>
                 <Link to="/login">
-                    <Button variant="primary">
+                    <Button variant="secondary">
                         Get started for free
                     </Button>
                 </Link>

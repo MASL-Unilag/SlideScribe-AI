@@ -3,6 +3,7 @@ import HomeGetSection from "./HomeGetSection.tsx";
 import HomeInitiative from "./HomeInitiative.tsx";
 import HomeWhySection from "./HomeWhySection.tsx";
 import HomeWhatSection from "./HomeWhatSection.tsx";
+import HomeWhatNextSection from "./HomeWhatNextSection.tsx";
 
 export default function HomePage() {
     return (
@@ -12,6 +13,7 @@ export default function HomePage() {
             <HomeInitiative/>
             <HomeWhySection/>
             <HomeWhatSection/>
+            <HomeWhatNextSection/>
         </div>
     );
 }

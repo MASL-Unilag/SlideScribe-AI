@@ -27,6 +27,10 @@ export default function HomeInitiative() {
         background: "#FFF",
         width: isSmallScreen ? "100%" : "80%",
         margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
     }
 
     const h2Style: CSSProperties = {
@@ -37,10 +41,7 @@ export default function HomeInitiative() {
     }
 
     return (
-        <section
-            className="container flex flex-col justify-center items-center"
-            style={sectionStyle}
-        >
+        <section style={sectionStyle}>
             <h2 style={h2Style}>An initiative of</h2>
             <div className="flex gap-6">
                 <Company name="Microsoft" logo={Microsoft}/>
