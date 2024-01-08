@@ -6,7 +6,7 @@ const Navigation = () => {
     return (
         <div className="flex items-center justify-between text-sm font-medium py-4 px-44 border-b border-b-neutral-40">
             <div className="flex gap-3 items-center">
-                <img src={logo}></img> <span className="text-neutral-900">SlideScribe AI</span>
+                <img src={logo} alt="SlideScribe AI"></img> <span className="text-neutral-900">SlideScribe AI</span>
             </div>
 
             <ul className="flex gap-2">

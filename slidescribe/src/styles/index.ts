@@ -2,7 +2,8 @@ import {CSSProperties} from "react";
 
 interface StylesProp {
     textDecorated: CSSProperties;
-    neutralDark: CSSProperties;
+    neutralDark700: CSSProperties;
+    neutralDark900: CSSProperties;
 }
 
 const Styles: StylesProp = {
@@ -11,8 +12,11 @@ const Styles: StylesProp = {
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent"
     },
-    neutralDark: {
+    neutralDark700: {
         color: "#253858"
+    },
+    neutralDark900: {
+        color: "#061938"
     }
 }
 

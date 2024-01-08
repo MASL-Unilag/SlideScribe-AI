@@ -64,7 +64,7 @@ function Card({index, title, content}: { index: number, title: string, content: 
 
     const contentStyle: CSSProperties = {
         fontSize: "0.875rem",
-        ...Styles.neutralDark,
+        ...Styles.neutralDark700,
     }
 
     return (

@@ -4,6 +4,7 @@ import HomeInitiative from "./HomeInitiative.tsx";
 import HomeWhySection from "./HomeWhySection.tsx";
 import HomeWhatSection from "./HomeWhatSection.tsx";
 import HomeWhatNextSection from "./HomeWhatNextSection.tsx";
+import Footer from "../../organisms/Footer.tsx";
 
 export default function HomePage() {
     return (
@@ -14,6 +15,7 @@ export default function HomePage() {
             <HomeWhySection/>
             <HomeWhatSection/>
             <HomeWhatNextSection/>
+            <Footer/>
         </div>
     );
 }
