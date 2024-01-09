@@ -3,7 +3,7 @@ export default function HomeWhySection() {
         <section
             className="flex flex-col justify-center items-center m-auto mt-16 md:mt-[9.25rem] w-full md:w-h px-0 md:px-h"
         >
-            <h1 className="text-heading font-medium text-center mb-5 decorated-text">
+            <h1 className="text-heading font-medium text-center mb-5 text-decorated">
                 Why SlideScribe AI solution?
             </h1>
 
@@ -31,7 +31,7 @@ function Card({content, index, align = 'right'}: { index: number, content: strin
             style={{gridRow: index}}
         >
             {align === 'left' && <p className="text-body">{content}</p>}
-            <p className="text-title font-medium decorated-text">{index}</p>
+            <p className="text-title font-medium text-decorated">{index}</p>
             {align === 'right' && <p className="text-body">{content}</p>}
         </div>
     )
