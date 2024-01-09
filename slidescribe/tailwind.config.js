@@ -60,6 +60,7 @@ export default {
         extend: {
             fontSize: {
                 body: ".875rem",
+                title: "1.75rem",
                 heading: "1.625rem",
                 heading2: "1.125rem"
             },
