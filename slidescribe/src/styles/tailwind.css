@@ -4,3 +4,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@layer components {
+    .decorated-text {
+        background: -webkit-linear-gradient(theme('colors.gradient.start'), theme('colors.gradient.stop'));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}

@@ -49,19 +49,25 @@ export default {
                 400: "#DE350B",
                 500: "#B92500",
             },
+            gradient: {
+                start: "#1479FF",
+                stop: "#8C33FF"
+            }
         },
         fontFamily: {
             sans: ['"Inter"'],
         },
         extend: {
             fontSize: {
-                normal: ".875rem"
+                body: ".875rem",
+                heading: "1.625rem"
             },
             spacing: {
                 h: "1.56rem"
             },
             width: {
-                h: "71%"
+                h: "71%",
+                sh: "35%",
             },
             textDecoration: {
                 none: "none",
