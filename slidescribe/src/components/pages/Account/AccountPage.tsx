@@ -1,5 +1,5 @@
 import InputField from "../../organisms/InputField";
-import Button from "../../organisms/Buttons";
+import Button from "../../organisms/Button.tsx";
 import { CgDanger } from "react-icons/cg";
 
 const AccountPage = () => {
