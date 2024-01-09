@@ -4,7 +4,7 @@ import cpu from "../../../assets/cpu.svg";
 export default function HomeWhatSection() {
     return (
         <section className="flex flex-col m-auto mt-16 md:mt-[8.25rem] w-full md:w-h px-0 md:px-h">
-            <h1 className="text-heading font-500 mb-[3.81rem] decorated-text">What can you do with<br/>SlideScribe AI
+            <h1 className="text-heading font-medium mb-[3.81rem] decorated-text">What can you do with<br/>SlideScribe AI
                 solution?</h1>
             <div className="grid gap-11 grid-cols-1 md:grid-cols-3">
                 {items.map((item) => <Card key={item.index} {...item}/>)}
@@ -31,7 +31,7 @@ function Card({index, title, content}: { index: number, title: string, content: 
             style={borderStyle}
         >
             <img className="w-6 mb-4" src={cpu} alt={title}/>
-            <h2 className="text-heading2 font-600 decorated-text">{title}</h2>
+            <h2 className="text-heading2 font-semibold decorated-text">{title}</h2>
             <p className="text-body text-neutral-700">{content}</p>
         </div>
     );

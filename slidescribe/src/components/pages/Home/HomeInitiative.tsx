@@ -1,52 +1,23 @@
-import {CSSProperties} from "react";
 import Microsoft from "../../../assets/Microsoft.svg";
 import ADC from "../../../assets/ADC.svg";
-import useMediaQuery from "../../../styles/mediaQuery.ts";
-
-function Company({name, logo}: { logo: string, name: string }) {
-    const companyStyle: CSSProperties = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "0.5rem",
-    }
-
-    return (
-        <div style={companyStyle}>
-            <img src={logo} alt={name}/>
-            {name}
-        </div>
-    );
-}
 
 export default function HomeInitiative() {
-    const isSmallScreen = useMediaQuery('(max-width: 900px)');
-
-    const sectionStyle: CSSProperties = {
-        padding: "1.56rem 0",
-        background: "#FFF",
-        width: isSmallScreen ? "100%" : "80%",
-        margin: "auto",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-    }
-
-    const h2Style: CSSProperties = {
-        fontSize: "1.125rem",
-        fontWeight: "600",
-        textAlign: "center",
-        marginBottom: "1.13rem",
-    }
-
     return (
-        <section style={sectionStyle}>
-            <h2 style={h2Style}>An initiative of</h2>
+        <section className="py-h bg-neutral-0 m-auto flex flex-col justify-center items-center">
+            <h2 className="text-heading2 font-semibold text-center mb-[1.13rem]">An initiative of</h2>
             <div className="flex gap-6">
                 <Company name="Microsoft" logo={Microsoft}/>
                 <Company name="Microsoft ADC" logo={ADC}/>
             </div>
         </section>
+    )
+}
+
+function Company({name, logo}: { logo: string, name: string }) {
+    return (
+        <div className="flex justify-center items-center gap-2">
+            <img src={logo} alt={name}/>
+            {name}
+        </div>
     )
 }
