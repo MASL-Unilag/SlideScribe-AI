@@ -1,7 +1,7 @@
 export default function HomeWhySection() {
     return (
         <section
-            className="flex flex-col justify-center items-center m-auto mt-16 md:mt-[9.25rem] w-full md:w-h px-0 md:px-h"
+            className="flex flex-col justify-center items-center m-auto mt-16 md:mt-[9.25rem] w-full md:w-h px-h md:px-0"
         >
             <h1 className="text-heading font-medium text-center mb-5 text-decorated">
                 Why SlideScribe AI solution?

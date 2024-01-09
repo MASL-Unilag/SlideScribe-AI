@@ -3,7 +3,7 @@ import cpu from "../../../assets/cpu.svg";
 
 export default function HomeWhatSection() {
     return (
-        <section className="flex flex-col m-auto mt-16 md:mt-[8.25rem] w-full md:w-h px-0 md:px-h">
+        <section className="flex flex-col m-auto mt-16 md:mt-[8.25rem] w-full md:w-h px-h md:px-0">
             <h1 className="text-heading font-medium mb-[3.81rem] text-decorated">What can you do with<br/>SlideScribe AI
                 solution?</h1>
             <div className="grid gap-11 grid-cols-1 md:grid-cols-3">
