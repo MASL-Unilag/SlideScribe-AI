@@ -47,11 +47,11 @@ export default function Footer() {
         height: "2rem"
     }
 
-    const sectionStyle: CSSProperties = {
+    const footerStyle: CSSProperties = {
         borderTop: "1px solid #C0B6F2",
     }
 
-    const footerStyle: CSSProperties = {
+    const contentStyle: CSSProperties = {
         padding: isSmallScreen ? "3.5rem 1.56rem" : "3.5rem 0",
         margin: "auto",
         display: "grid",
@@ -92,8 +92,8 @@ export default function Footer() {
     }
 
     return (
-        <section style={sectionStyle}>
-            <footer style={footerStyle}>
+        <footer style={footerStyle}>
+            <div style={contentStyle}>
                 <div style={leadStyle}>
                     <div style={logoStyle}>
                         <img src={logo} alt="SlideScribe AI" style={imageStyle}/>
@@ -111,7 +111,7 @@ export default function Footer() {
                 <Links title="Quick Links" links={["About Us", "Team"]}/>
                 <Links title="Help & Support" links={["FAQs", "Terms", "Privacy"]}/>
                 <p style={copyrightStyle}>&copy; {new Date().getFullYear()} SlideScribe AI. All rights reserved.</p>
-            </footer>
-        </section>
+            </div>
+        </footer>
     )
 }
