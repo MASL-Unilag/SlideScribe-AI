@@ -60,7 +60,8 @@ export default {
         extend: {
             fontSize: {
                 body: ".875rem",
-                heading: "1.625rem"
+                heading: "1.625rem",
+                heading2: "1.125rem"
             },
             spacing: {
                 h: "1.56rem"
