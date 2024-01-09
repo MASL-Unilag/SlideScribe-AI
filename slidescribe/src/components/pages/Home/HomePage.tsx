@@ -9,7 +9,7 @@ import Footer from "../../organisms/Footer.tsx";
 export default function HomePage() {
     return (
         <div>
-            <Navigation/>
+            <Navigation currentScreen="Home"/>
             <HomeGetSection/>
             <HomeInitiative/>
             <HomeWhySection/>
