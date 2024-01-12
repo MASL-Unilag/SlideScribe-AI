@@ -1,5 +1,5 @@
 import InputField from "../../organisms/InputField";
-import Button from "../../organisms/Buttons";
+import Button from "../../organisms/Button.tsx";
 import { AuthUserData } from "../../../services/@types/authTypes";
 import AuthService from "../../../services/authService";
 import apiEndpoints from "../../../constants/apiEndpoints";

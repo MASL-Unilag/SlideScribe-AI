@@ -1,4 +1,4 @@
-import Button from "../../organisms/Buttons";
+import Button from "../../organisms/Button.tsx";
 import Overlays from "../../organisms/Overlays";
 import close from "../../../assets/close.svg";
 import caution from "../../../assets/caution.svg";
