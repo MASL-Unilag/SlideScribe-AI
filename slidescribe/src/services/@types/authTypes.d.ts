@@ -1,6 +1,6 @@
 export interface AuthUserData {
-    firstName?: string,
-    lastName?:string,
+    firstname?: string,
+    lastname?:string,
     password: string,
     email: string,    
 }
