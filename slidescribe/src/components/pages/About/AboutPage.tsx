@@ -86,7 +86,6 @@ const AboutCard = ({title, body}: AboutCardProps) => {
 interface TeamMemberProps {
     name: string;
     track: string;
-    role: string;
     image: string;
 }
 
