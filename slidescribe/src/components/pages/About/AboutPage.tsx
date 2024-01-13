@@ -156,7 +156,7 @@ const team_data = [
     {
         name: "Salim Oyinlola",
         track: "Backend"
-    }
+    },
     {
         name: "Edet Bassey ",
         track: "PM"
