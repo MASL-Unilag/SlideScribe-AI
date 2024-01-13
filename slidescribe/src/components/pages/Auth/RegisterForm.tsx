@@ -26,7 +26,8 @@ export default function RegisterForm() {
 		try {
 			const res = await authService.signup(values);
 			if (res.data.user_id) {
-				navigate("/login");
+				console.log(res.data.user_id)
+				navigate("/dashboard");
 			}
 		} catch (err: unknown) {
 			if (err instanceof Error) {
