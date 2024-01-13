@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import SideBarButton from "./SideBarButton";
 import { FiGrid } from "react-icons/fi";
@@ -10,7 +10,11 @@ const Sidebar = () => {
 			<div className="w-1/4 border-r border-neutral-50 p-4">
 				<div className="p-4 gap-3 flex items-center border-b border-neutral-50 pt-0 mb-6">
 					<img src={logo} alt="logo" />
-					<h2 className="font-medium text-sm ">SlideScribe AI</h2>
+					<h2 className="font-medium text-sm ">
+						<Link to="/">
+							SlideScribe AI
+						</Link>
+					</h2>
 				</div>
 				<div className="flex flex-col justify-between h-[85%]">
 					<SideBarButton icon={FiGrid} route="">

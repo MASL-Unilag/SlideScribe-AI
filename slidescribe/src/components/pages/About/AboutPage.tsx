@@ -1,4 +1,5 @@
 import backgroundImage from "../../../assets/images/team_image.png";
+import Footer from "../../organisms/Footer";
 import Navigation from "../../organisms/HomeNavBar";
 
 export default function AboutPage() {
@@ -50,13 +51,12 @@ export default function AboutPage() {
                                     gridTemplateColumns: "repeat(auto-fit, minmax(252px, 1fr))",
                                 }}
                             >
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((team) => (
+                                {team_data.map((team) => (
                                     <TeamMember
-                                        name="Name"
-                                        track="Track"
-                                        role="Role"
+                                        name={team.name}
+                                        track={team.track}
                                         image={backgroundImage}
-                                        key={team}
+                                        key={team.name}
                                     />
                                 ))}
                             </div>
@@ -64,7 +64,7 @@ export default function AboutPage() {
                     </div>
                 </div>
             </div>
-
+            <Footer/>
         </>
     );
 }
@@ -90,7 +90,7 @@ interface TeamMemberProps {
     image: string;
 }
 
-const TeamMember = ({name, track, role, image}: TeamMemberProps) => {
+const TeamMember = ({name, track, image}: TeamMemberProps) => {
     return (
         <div>
             <div
@@ -102,7 +102,7 @@ const TeamMember = ({name, track, role, image}: TeamMemberProps) => {
             <div className="team-name">
                 <h2 className="text-base font-semibold mt-1">{name}</h2>
                 <p className="text-base font-normal">
-                    {track}/{role}
+                    {track}
                 </p>
             </div>
         </div>
@@ -123,3 +123,54 @@ const about_data = [
         body: "Trust forms the bedrock of our team dynamics. It's the confidence we have in each other's abilities, the reliance on open communication, and the belief that together we can achieve more than any of us could individually. Trust allows us to collaborate seamlessly, share ideas without fear of judgment, and foster an environment where everyone feels valued. In our team, trust is not just a word; it's a cornerstone upon which our success and camaraderie are built",
     },
 ];
+
+const team_data = [
+    {
+        name: "Abiola Farounbi",
+        track: "Frontend"
+    },
+    {
+        name: "Zosu Semako Enoch",
+        track: "Frontend"
+    },
+    {
+        name: "Jeffery Chidumebi Orazulike ",
+        track: "Frontend"
+    },
+    {
+        name: "Noibi Abdulrasaq Olamilekan",
+        track: "Frontend"
+    },
+    {
+        name: " Mubarak Rabiu ",
+        track: "UI Design"
+    },
+    {
+        name: "David Dada Oloruntofunmi",
+        track: "Backend"
+    },
+    {
+        name: "Adediwura Boluwatife ",
+        track: "Backend"
+    },
+    {
+        name: "Salim Oyinlola",
+        track: "Backend"
+    }
+    {
+        name: "Edet Bassey ",
+        track: "PM"
+    },
+    {
+        name: "Elutabe Efezino",
+        track: "PM"
+    }
+];
+
+
+
+
+
+
+
+

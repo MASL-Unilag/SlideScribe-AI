@@ -1,6 +1,4 @@
 import logo from "../../assets/logo.svg";
-import instagram from "../../assets/instagram.svg";
-import twitter from "../../assets/twitter.svg";
 import {Link} from "react-router-dom";
 
 function Links({title, links}: { title: string, links: string[] }) {
@@ -29,16 +27,16 @@ export default function Footer() {
                         <img src={logo} alt="SlideScribe AI" className={imageClass}/>
                         <h3>SlideScribe AI</h3>
                     </div>
-                    <div className="flex items-center gap-6">
-                        <Link to="https://instagram.com">
-                            <img src={instagram} alt="SlideScribe AI instagram" className={imageClass}/>
-                        </Link>
-                        <Link to="https://twitter.com">
-                            <img src={twitter} alt="SlideScribe AI twitter" className={imageClass}/>
-                        </Link>
-                    </div>
                 </div>
-                <Links title="Quick Links" links={["About Us", "Team"]}/>
+                <div className="flex flex-col min-w-full justify-start gap-4 text-body">
+                    <h3 className="font-bold text-neutral-900 mb-2"> Quick Links</h3>
+                        <Link to="/about">
+                            About Us
+                        </Link>
+                        <Link to="/about">
+                            Team
+                        </Link>
+                </div>
                 <Links title="Help & Support" links={["FAQs", "Terms", "Privacy"]}/>
                 <p className="text-neutral-900 font-medium mt-10 text-body">
                     &copy; {new Date().getFullYear()} SlideScribe

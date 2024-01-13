@@ -7,7 +7,11 @@ export const WithTokenRedirect = ({ children }: { children: ReactNode }) => {
 	const { isAuthenticated } = useAuth();
 	useEffect(() => {
 		if (!isAuthenticated) {
+			const timerId = setTimeout(() => {
 			navigate("/login");
+			}, 0);
+
+			return () => clearTimeout(timerId);
 		}
 	}, [isAuthenticated, navigate]);
 
