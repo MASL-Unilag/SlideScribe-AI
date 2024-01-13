@@ -5,16 +5,18 @@ import AuthService from "../../../services/authService";
 import apiEndpoints from "../../../constants/apiEndpoints";
 import { SignUpSchema } from "../../../utils/validateInput";
 import { Formik, FormikHelpers } from "formik";
+import { useNavigate } from "react-router-dom";
 
 const initialValues: AuthUserData = {
 	password: "",
 	email: "",
-	firstName: "",
-	lastName: "",
+	firstname: "",
+	lastname: "",
 };
 
 export default function RegisterForm() {
 	const authService = new AuthService(apiEndpoints.auth);
+	const navigate = useNavigate();
 
 	const handleSignUp = async (
 		values: AuthUserData,
@@ -23,9 +25,15 @@ export default function RegisterForm() {
 		console.log(values);
 		try {
 			const res = await authService.signup(values);
-			console.log(res.json());
-		} catch (err: any) {
-			console.error(err.message);
+			if (res.data.user_id) {
+				navigate("/login");
+			}
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				console.error("Login Error:", err.message);
+			} else {
+				console.error("An unknown error occurred during login");
+			}
 		} finally {
 			setSubmitting(false);
 		}
@@ -35,8 +43,7 @@ export default function RegisterForm() {
 		<Formik
 			initialValues={initialValues}
 			onSubmit={handleSignUp}
-			validationSchema={SignUpSchema}
-		>
+			validationSchema={SignUpSchema}>
 			{(formik) => {
 				return (
 					<form onSubmit={formik.handleSubmit}>
@@ -44,51 +51,44 @@ export default function RegisterForm() {
 							<div className="flex flex-col gap-8">
 								<div className="flex flex-col">
 									<label
-										htmlFor="firstName"
-										className="mb-2 w-fit text-neutral-700 font-medium"
-									>
+										htmlFor="firstname"
+										className="mb-2 w-fit text-neutral-700 font-medium">
 										First Name
 									</label>
 									<InputField
 										type="text"
-										value={formik.values.firstName!}
+										value={formik.values.firstname!}
 										placeholder="First Name"
-										str="firstName"
+										str="firstname"
 										onChange={formik.handleChange}
 									/>
-									{formik.touched.firstName &&
-									formik.errors.firstName ? (
+									{formik.touched.firstname && formik.errors.firstname ? (
 										<div className="text-red-500">
-											{formik.errors.firstName}
+											{formik.errors.firstname}
 										</div>
 									) : null}
 								</div>
 								<div className="flex flex-col">
 									<label
-										htmlFor="lastName"
-										className="mb-2 w-fit text-neutral-700 font-medium"
-									>
+										htmlFor="lastname"
+										className="mb-2 w-fit text-neutral-700 font-medium">
 										Last Name
 									</label>
 									<InputField
 										type="text"
-										value={formik.values.lastName!}
+										value={formik.values.lastname!}
 										placeholder="Last Name"
-										str="lastName"
+										str="lastname"
 										onChange={formik.handleChange}
 									/>
-									{formik.touched.lastName &&
-									formik.errors.lastName ? (
-										<div className="">
-											{formik.errors.lastName}
-										</div>
+									{formik.touched.lastname && formik.errors.lastname ? (
+										<div className="">{formik.errors.lastname}</div>
 									) : null}
 								</div>
 								<div className="flex flex-col">
 									<label
 										htmlFor="email"
-										className="mb-2 w-fit text-neutral-700 font-medium"
-									>
+										className="mb-2 w-fit text-neutral-700 font-medium">
 										Email address
 									</label>
 									<InputField
@@ -98,19 +98,15 @@ export default function RegisterForm() {
 										str="email"
 										onChange={formik.handleChange}
 									/>
-									{formik.touched.email &&
-									formik.errors.email ? (
-										<div className="text-red-500">
-											{formik.errors.email}
-										</div>
+									{formik.touched.email && formik.errors.email ? (
+										<div className="text-red-500">{formik.errors.email}</div>
 									) : null}
 								</div>
 
 								<div className="flex flex-col w-full">
 									<label
 										htmlFor="password"
-										className="mb-2 w-fit text-neutral-700 font-medium"
-									>
+										className="mb-2 w-fit text-neutral-700 font-medium">
 										Password
 									</label>
 									<InputField
@@ -120,25 +116,20 @@ export default function RegisterForm() {
 										str="password"
 										onChange={formik.handleChange}
 									/>
-									{formik.touched.password &&
-									formik.errors.password ? (
-										<div className="text-red-500">
-											{formik.errors.password}
-										</div>
+									{formik.touched.password && formik.errors.password ? (
+										<div className="text-red-500">{formik.errors.password}</div>
 									) : null}
 								</div>
 							</div>
 
 							<div className="flex flex-col gap-6">
 								<span className="text-center font-medium text-neutral-400 cursor-pointer hover:underline hover:text-neutral-700">
-									By signing up, you agree to our terms of
-									use.
+									By signing up, you agree to our terms of use.
 								</span>
 								<Button
 									variant="primary"
 									type="submit"
-									disabled={formik.isSubmitting}
-								>
+									disabled={formik.isSubmitting}>
 									Sign up
 								</Button>
 							</div>

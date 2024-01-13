@@ -1,5 +1,5 @@
 const apiEndpoints = {
-	auth: "http://157.230.57.186/v1/auth",
+	auth: "http://143.198.52.145/v1/auth",
 };
 
 export default apiEndpoints

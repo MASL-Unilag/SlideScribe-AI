@@ -6,6 +6,7 @@ import apiEndpoints from "../../../constants/apiEndpoints";
 import useAuth from "../../../hooks/useAuth";
 import { FormikHelpers, Formik } from "formik";
 import { LogInSchema } from "../../../utils/validateInput";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
 	const initialValues: AuthUserData = {
@@ -14,6 +15,7 @@ export default function LoginForm() {
 	};
 	const authService = new AuthService(apiEndpoints.auth);
 	const { saveToken } = useAuth();
+	const navigate = useNavigate();
 
 	const handleLogin = async (
 		values: AuthUserData,
@@ -24,14 +26,19 @@ export default function LoginForm() {
 				email: values.email,
 				password: values.password,
 			});
-
+			// console.log(res.data.tokens)
 			if (!res) {
 				throw new Error("Invalid user credentials");
 			}
 
-			saveToken(res.tokens);
-		} catch (err: any) {
-			console.error("Login Error:", err.message);
+			saveToken(res.data.tokens);
+			navigate("/dashboard");
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				console.error("Login Error:", err.message);
+			} else {
+				console.error("An unknown error occurred during login");
+			}
 		} finally {
 			setSubmitting(false);
 		}
@@ -40,8 +47,7 @@ export default function LoginForm() {
 		<Formik
 			initialValues={initialValues}
 			onSubmit={handleLogin}
-			validationSchema={LogInSchema}
-		>
+			validationSchema={LogInSchema}>
 			{(formik) => (
 				<form onSubmit={formik.handleSubmit}>
 					<div className="flex flex-col gap-10 max-w-xl p-16 m-auto border border-neutral-50 rounded-md bg-neutral-0 min-w-[534px]">
@@ -49,8 +55,7 @@ export default function LoginForm() {
 							<div className="flex flex-col">
 								<label
 									htmlFor="email"
-									className="mb-2 w-fit text-neutral-700 font-medium"
-								>
+									className="mb-2 w-fit text-neutral-700 font-medium">
 									Email address
 								</label>
 								<InputField
@@ -65,8 +70,7 @@ export default function LoginForm() {
 							<div className="flex flex-col w-full">
 								<label
 									htmlFor="password"
-									className="mb-2 w-fit text-neutral-700 font-medium"
-								>
+									className="mb-2 w-fit text-neutral-700 font-medium">
 									Password
 								</label>
 								<InputField
@@ -76,11 +80,8 @@ export default function LoginForm() {
 									str="password"
 									onChange={formik.handleChange}
 								/>
-								{formik.touched.password &&
-								formik.errors.password ? (
-									<div className="text-red-500">
-										{formik.errors.password}
-									</div>
+								{formik.touched.password && formik.errors.password ? (
+									<div className="text-red-500">{formik.errors.password}</div>
 								) : null}
 							</div>
 						</div>

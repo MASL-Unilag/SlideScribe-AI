@@ -1,11 +1,11 @@
 import { object, string } from "yup";
 
 export const SignUpSchema = object({
-	firstName: string()
+	firstname: string()
 		.required()
 		.min(3, "First name must be greater than two characters")
 		.max(16, "First name must be less than 16 characters"),
-	lastName: string()
+	lastname: string()
 		.required("Last name is required")
 		.min(3, "Last name must be greater than two characters")
 		.max(16, "Last name must be less than 16 characters"),
