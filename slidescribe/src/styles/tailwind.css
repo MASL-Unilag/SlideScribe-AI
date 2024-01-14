@@ -12,3 +12,13 @@
         -webkit-text-fill-color: transparent;
     }
 }
+
+@layer utilities {
+    ::-webkit-scrollbar-track {
+        background: theme('colors.neutral.30');
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: theme('colors.neutral.50');
+    }
+}

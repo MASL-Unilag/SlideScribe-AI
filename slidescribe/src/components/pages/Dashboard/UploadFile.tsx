@@ -1,3 +1,4 @@
+import caution from "../../../assets/caution.svg";
 import close from "../../../assets/close.svg";
 import check from "../../../assets/check.svg";
 import note from "../../../assets/note.svg";
@@ -5,10 +6,11 @@ import Button from "../../organisms/Button.tsx";
 import {useRef} from "react";
 import {formatFileSize} from "../../../utils/formatters.ts";
 
-export default function UploadFile({file, state, progress, onFileChange, onReUpload, onCancel}: {
+export default function UploadFile({file, state, progress, status, onFileChange, onReUpload, onCancel}: {
     file: File | null,
     state: FileUploadState,
     progress: number,
+    status?: string,
     onFileChange: (file: File) => void,
     onReUpload: () => void,
     onCancel: () => void
@@ -23,6 +25,7 @@ export default function UploadFile({file, state, progress, onFileChange, onReUpl
                         file={file}
                         state={state}
                         progress={progress}
+                        status={status}
                         onReUpload={onReUpload}
                         onCancel={onCancel}
                     /> : <EmptyFileUpload onFileSelected={onFileChange}/>
@@ -82,10 +85,11 @@ function EmptyFileUpload(
     )
 }
 
-function ProgressFileUpload({file, state, progress, onReUpload, onCancel}: {
+function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel}: {
     file: File,
     state: FileUploadState,
     progress: number,
+    status?: string,
     onReUpload: () => void,
     onCancel: () => void
 }) {
@@ -101,6 +105,7 @@ function ProgressFileUpload({file, state, progress, onReUpload, onCancel}: {
         error: 'bg-red-500',
         success: 'bg-green-300',
     }
+    console.log(state)
 
     return (
         <div className="flex flex-col items-center justify-center w-full">
@@ -132,23 +137,19 @@ function ProgressFileUpload({file, state, progress, onReUpload, onCancel}: {
                 state !== 'default' && (
                     <div className="flex flex-col flex-1 gap-[1.13rem] items-center mt-8">
                         <p className="text-body font-medium text-neutral-900">
-                            {state === 'error'
-                                ? 'Upload failed ' : state === 'success'
-                                    ? 'File uploaded successfully' : 'Uploading...'
-                            }
+                            {status}
                             {state === 'error' && (
                                 <button
                                     onClick={onReUpload}
                                     type="button"
-                                    className="text-neutral-200 underline"
+                                    className="ml-1 text-neutral-200 underline"
                                 >
                                     Re-upload
                                 </button>
                             )}
                         </p>
-                        {state === 'success' && (
-                            <img src={check} alt={state}/>
-                        )}
+                        {state === 'success' && <img src={check} alt={state}/>}
+                        {state === 'error' && <img src={caution} alt={state}/>}
                     </div>
                 )
             }

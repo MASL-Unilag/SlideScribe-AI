@@ -4,14 +4,17 @@ import close from "../../../assets/close.svg";
 import caution from "../../../assets/caution.svg";
 import Button from "../../organisms/Button.tsx";
 import UploadFile, {FileUploadState} from "./UploadFile.tsx";
+import UploadData from "./UploadData.tsx";
 
 export default function UploadDialog({isOpen, setIsOpen}: {
-    isOpen: boolean; setIsOpen: (isOpen: boolean) => void
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void
 }) {
-    const [uploadState, setUploadState] = useState<FileUploadState>('default')
+    const [state, setState] = useState<FileUploadState>('default')
     const [progress, setProgress] = useState<number>(0)
     const [file, setFile] = useState<File | null>(null)
     const [page, setPage] = useState<number>(0)
+    const [status, setStatus] = useState<string>()
 
     const [button, setButton] = useState({
         text: 'Continue',
@@ -23,9 +26,12 @@ export default function UploadDialog({isOpen, setIsOpen}: {
             text: page === 1 ? 'Create slide' : 'Continue',
             disabled: file === null
         })
-    }, [uploadState, file, page])
+    }, [state, file, page])
 
     const toggleOpen = () => {
+        if (isOpen) {
+            cancelFileUpload()
+        }
         setIsOpen(!isOpen)
     }
 
@@ -38,8 +44,9 @@ export default function UploadDialog({isOpen, setIsOpen}: {
     }
 
     const cancelFileUpload = () => {
-        setUploadState('default')
+        setState('default')
         setFile(null)
+        setStatus(undefined)
         setProgress(0)
         setPage(0)
     }
@@ -51,7 +58,8 @@ export default function UploadDialog({isOpen, setIsOpen}: {
         switch (page) {
             case 0:
                 // if file upload has not begun, start it
-                setUploadState('loading')
+                setState('error')
+                setStatus('Uploading...')
                 uploadFile()
                 setPage(1)
                 return
@@ -65,27 +73,29 @@ export default function UploadDialog({isOpen, setIsOpen}: {
         <div className="modal">
             <Overlays
                 children={
-                    <>
-                        <div
-                            className="modal_content flex flex-col bg-neutral-0 h-[73%] rounded-md text-base"
-                        >
-                            <Header toggleOpen={toggleOpen}/>
+                    <div
+                        className="modal_content flex flex-col bg-neutral-0 max-h-[80vh] rounded-md text-base"
+                    >
+                        <Header toggleOpen={toggleOpen}/>
+                        {page === 0 && (
                             <UploadFile
                                 file={file}
-                                state={uploadState}
+                                state={state}
                                 progress={progress}
+                                status={status}
                                 onFileChange={setFile}
                                 onReUpload={uploadFile}
                                 onCancel={cancelFileUpload}
                             />
-                            <Footer
-                                toggleOpen={toggleOpen}
-                                onNext={onNext}
-                                buttonText={button.text}
-                                buttonDisabled={button.disabled}
-                            />
-                        </div>
-                    </>
+                        )}
+                        {page === 1 && <UploadData fileName={file!.name}/>}
+                        <Footer
+                            toggleOpen={toggleOpen}
+                            onNext={onNext}
+                            buttonText={button.text}
+                            buttonDisabled={button.disabled}
+                        />
+                    </div>
                 }
                 isOpen={isOpen}
             />
@@ -99,7 +109,8 @@ function Header({toggleOpen}: { toggleOpen: () => void }) {
             <div className="top_modal">
                 <div className="top_modal-nav flex justify-between items-center py-4 px-6">
                     <h1 className="text-body text-neutral-900 font-medium">Create new slide</h1>
-                    <button className="border border-solid border-neutral-50 rounded-md p-1" onClick={toggleOpen} type="button">
+                    <button className="border border-solid border-neutral-50 rounded-md p-1" onClick={toggleOpen}
+                            type="button">
                         <img src={close} alt="close" className="w-4"/>
                     </button>
                 </div>
