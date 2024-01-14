@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
+import React from "react";
 
 const mountElement = document.getElementById("overlays");
 

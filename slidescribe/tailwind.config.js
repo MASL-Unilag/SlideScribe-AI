@@ -49,6 +49,12 @@ export default {
                 400: "#DE350B",
                 500: "#B92500",
             },
+            green: {
+                300: "#36B37E",
+            },
+            gray: {
+                85: "#D9D9D9",
+            },
             gradient: {
                 start: "#1479FF",
                 stop: "#8C33FF"
@@ -59,6 +65,7 @@ export default {
         },
         extend: {
             fontSize: {
+                caption: ".75rem",
                 body: ".875rem",
                 title: "1.75rem",
                 heading: "1.625rem",
