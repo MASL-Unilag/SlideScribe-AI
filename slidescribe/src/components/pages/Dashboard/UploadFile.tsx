@@ -1,10 +1,11 @@
-import caution from "../../../assets/caution.svg";
-import close from "../../../assets/close.svg";
-import check from "../../../assets/check.svg";
-import note from "../../../assets/note.svg";
+import {getTheme} from '../../../../tailwind.config.ts'
+
+import {MdClose, MdInfoOutline} from "react-icons/md";
+import {BsCheckCircleFill} from "react-icons/bs";
 import Button from "../../organisms/Button.tsx";
-import {useRef} from "react";
+import {CSSProperties, useRef} from "react";
 import {formatFileSize} from "../../../utils/formatters.ts";
+import {DocIcon, PdfIcon, TxtIcon} from "../../organisms/Icons.tsx";
 
 export default function UploadFile({file, state, progress, status, onFileChange, onReUpload, onCancel}: {
     file: File | null,
@@ -39,6 +40,14 @@ function EmptyFileUpload(
     {onFileSelected}: { onFileSelected: (file: File) => void }
 ) {
     const inputRef = useRef<HTMLInputElement>(null)
+
+    // @ts-expect-error Color neutral exists in the config
+    const color = getTheme().colors.neutral["80"]
+    const documentStyle: CSSProperties = {
+        width: "1.5rem",
+        height: "1.5rem",
+    }
+
     const selectFile = () => {
         inputRef.current?.click()
     }
@@ -53,9 +62,9 @@ function EmptyFileUpload(
     return (
         <div className="flex items-center justify-center flex-col relative">
             <div className="notes flex gap-0">
-                <img src={note} alt=""/>
-                <img src={note} alt=""/>
-                <img src={note} alt=""/>
+                <DocIcon style={{...documentStyle, transform: "rotate(-16deg)"}} color={color}/>
+                <PdfIcon style={documentStyle} color={color}/>
+                <TxtIcon style={{...documentStyle, transform: "rotate(16deg)"}} color={color}/>
             </div>
             <div className="text-center mt-6 text-caption text-neutral-700">
                 Drag and drop your file here <br/> or <br/>
@@ -93,42 +102,39 @@ function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel
     onReUpload: () => void,
     onCancel: () => void
 }) {
-    const borderColor = {
-        default: 'border-neutral-200',
-        loading: 'border-neutral-200',
-        error: 'border-red-500',
-        success: 'border-green-300',
-    }
-    const progressColor = {
-        default: 'bg-neutral-200',
-        loading: 'bg-neutral-200',
-        error: 'bg-red-500',
-        success: 'bg-green-300',
-    }
-    console.log(state)
+    const colors = getTheme().colors
+
+    const borderColor = status === 'error' ? 'border-red-500' : status === 'success' ? 'border-green-300' : 'border-neutral-200'
+    const progressColor = status === 'error' ? 'bg-red-500' : status === 'success' ? 'bg-green-300' : 'bg-neutral-200'
+    const textColor = status === 'error' ? colors.red["500"] : status === 'success' ? colors.green["300"] : colors.neutral["200"]
+
+    const extension = file.name.split('.').pop()
+    const Icon = extension === 'pdf' ? PdfIcon : extension === 'txt' ? TxtIcon : DocIcon
 
     return (
         <div className="flex flex-col items-center justify-center w-full">
-            <div className={`p-2 rounded-md border border-solid ${borderColor[state]} w-full`}>
+            <div className={`p-2 rounded-md border border-solid ${borderColor} w-full flex gap-3`}>
+                <Icon color={textColor} style={{width: "1rem", height: "1.25rem"}}/>
+                <div className="flex-1">
+                    {/* File Info */}
+                    <div className="flex items-start">
+                        <div className="flex-1 text-body font-medium">
+                            <p className="text-neutral-900">{file.name}</p>
+                            <p className="text-neutral-400">{formatFileSize(file.size)}</p>
+                        </div>
 
-                {/* File Info */}
-                <div className="flex items-start">
-                    <div className="flex-1 text-body font-medium">
-                        <p className="text-neutral-900">{file.name}</p>
-                        <p className="text-neutral-400">{formatFileSize(file.size)}</p>
+                        <button onClick={onCancel} type="button">
+                            <MdClose className="w-4 text-neutral-900"/>
+                        </button>
                     </div>
 
-                    <button onClick={onCancel} type="button">
-                        <img src={close} alt="close" className="w-4"/>
-                    </button>
-                </div>
-
-                {/* Progress indicator */}
-                <div className="mt-3 h-[0.375rem] bg-gray-85 rounded-[0.25rem]">
-                    <div
-                        className={`${progressColor[state]} rounded-[0.25rem] h-full`}
-                        style={{width: `${progress}%`}}
-                    />
+                    {/* Progress indicator */}
+                    <div className="mt-3 h-[0.375rem] bg-gray-85 rounded-[0.25rem]">
+                        <div
+                            className={`${progressColor} rounded-[0.25rem] h-full`}
+                            style={{width: `${progress}%`}}
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -148,8 +154,8 @@ function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel
                                 </button>
                             )}
                         </p>
-                        {state === 'success' && <img src={check} alt={state}/>}
-                        {state === 'error' && <img src={caution} alt={state}/>}
+                        {state === 'success' && <BsCheckCircleFill className="w-6 text-green-300"/>}
+                        {state === 'error' && <MdInfoOutline className="w-6 text-red-500"/>}
                     </div>
                 )
             }

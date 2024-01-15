@@ -1,5 +1,7 @@
+import resolveConfig from "tailwindcss/resolveConfig";
+
 /** @type {import('tailwindcss').Config} */
-export default {
+const tailwindConfig: import('tailwindcss').Config = {
     content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
     theme: {
         colors: {
@@ -84,4 +86,10 @@ export default {
         }
     },
     plugins: [],
-};
+}
+
+export function getTheme() {
+    return resolveConfig(tailwindConfig).theme;
+}
+
+export default tailwindConfig

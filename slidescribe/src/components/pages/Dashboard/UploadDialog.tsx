@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import Overlays from "../../organisms/Overlays.tsx";
-import close from "../../../assets/close.svg";
-import caution from "../../../assets/caution.svg";
+import {MdClose, MdInfoOutline} from "react-icons/md";
 import Button from "../../organisms/Button.tsx";
 import UploadFile, {FileUploadState} from "./UploadFile.tsx";
 import UploadData from "./UploadData.tsx";
@@ -111,13 +110,14 @@ function Header({toggleOpen}: { toggleOpen: () => void }) {
                     <h1 className="text-body text-neutral-900 font-medium">Create new slide</h1>
                     <button className="border border-solid border-neutral-50 rounded-md p-1" onClick={toggleOpen}
                             type="button">
-                        <img src={close} alt="close" className="w-4"/>
+
+                        <MdClose className="w-4 text-neutral-900"/>
                     </button>
                 </div>
                 <hr className="text-neutral-50"/>
             </div>
             <div className="flex items-center gap-2 mt-6 px-8">
-                <img src={caution} alt="caution" className="w-4"/>
+                <MdInfoOutline className="w-4 text-neutral-200"/>
                 <p className="text-caption text-neutral-500">
                     Single upload file should not be more than 10MB.{" "}
                     <b>PDF, DOC, TXT</b> file are supported.
