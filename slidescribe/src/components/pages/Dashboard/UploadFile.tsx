@@ -102,11 +102,11 @@ function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel
     onReUpload: () => void,
     onCancel: () => void
 }) {
-    const colors = getTheme().colors
+
 
     const borderColor = status === 'error' ? 'border-red-500' : status === 'success' ? 'border-green-300' : 'border-neutral-200'
     const progressColor = status === 'error' ? 'bg-red-500' : status === 'success' ? 'bg-green-300' : 'bg-neutral-200'
-    const textColor = status === 'error' ? colors.red["500"] : status === 'success' ? colors.green["300"] : colors.neutral["200"]
+    const textColor = status === 'error' ? 'text-red-300' : status === 'success' ? 'text-green-300' : 'text-neutral-200'
 
     const extension = file.name.split('.').pop()
     const Icon = extension === 'pdf' ? PdfIcon : extension === 'txt' ? TxtIcon : DocIcon
