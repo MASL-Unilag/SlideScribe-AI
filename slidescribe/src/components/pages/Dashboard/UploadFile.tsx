@@ -1,4 +1,4 @@
-import {getTheme} from '../../../../tailwind.config.ts'
+import {Colors} from '../../../../tailwind.config.ts'
 
 import {MdClose, MdInfoOutline} from "react-icons/md";
 import {BsCheckCircleFill} from "react-icons/bs";
@@ -41,8 +41,7 @@ function EmptyFileUpload(
 ) {
     const inputRef = useRef<HTMLInputElement>(null)
 
-    // @ts-expect-error Color neutral exists in the config
-    const color = getTheme().colors.neutral["80"]
+    const color = Colors.neutral["80"]
     const documentStyle: CSSProperties = {
         width: "1.5rem",
         height: "1.5rem",
@@ -102,11 +101,9 @@ function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel
     onReUpload: () => void,
     onCancel: () => void
 }) {
-
-
-    const borderColor = status === 'error' ? 'border-red-500' : status === 'success' ? 'border-green-300' : 'border-neutral-200'
-    const progressColor = status === 'error' ? 'bg-red-500' : status === 'success' ? 'bg-green-300' : 'bg-neutral-200'
-    const textColor = status === 'error' ? 'text-red-300' : status === 'success' ? 'text-green-300' : 'text-neutral-200'
+    const borderColor = state === 'error' ? 'border-red-500' : state === 'success' ? 'border-green-300' : 'border-neutral-200'
+    const progressColor = state === 'error' ? 'bg-red-500' : state === 'success' ? 'bg-green-300' : 'bg-neutral-200'
+    const textColor = state === 'error' ? Colors.red['300'] : state === 'success' ? Colors.green['300'] : Colors.neutral['200']
 
     const extension = file.name.split('.').pop()
     const Icon = extension === 'pdf' ? PdfIcon : extension === 'txt' ? TxtIcon : DocIcon
