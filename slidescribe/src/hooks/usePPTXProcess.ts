@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Dispatch, SetStateAction } from "react";
+import apiEndpoints from "../constants/apiEndpoints";
 
 export type PPTXStatus = "error" | "completed" | "processing" | "idle";
 
@@ -15,12 +16,22 @@ const usePPTXProcess = (
 		const checkPPTX = async () => {
 			setPPTXStatus("processing");
 			try {
-				const res = await axios.get(`demo_string/${id}`);
-				setPPTXStatus(res.data.status);
-				if (res.data.status === "completed") {
+				const accessToken = process.env.REACT_APP_BEARER_ACCESS_TOKEN;
+				const config = {
+					method: "get",
+					url: `${apiEndpoints.slide}/${id}`,
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+					},
+				};
+				const res = await axios.request(config);
+				setPPTXStatus(res.data.data.status);
+				if (res.data.data.status === "COMPLETED") {
 					setPPTXStatus("completed");
-					setPPtxUrl(res.data.PPtxUrl);
-				} else if (res.data.status === "processing") {
+					setPPtxUrl(res.data.data.file);
+				} else if (res.data.data.status === "PROCESSING") {
 					setPPTXStatus("processing");
 				}
 			} catch (error) {
