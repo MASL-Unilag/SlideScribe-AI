@@ -9,7 +9,7 @@ export const WithTokenRedirect = ({children}: { children: ReactNode }) => {
         if (!isAuthenticated) {
             const timerId = setTimeout(() => {
                 navigate("/login");
-            }, 0);
+            }, 10);
 
             return () => clearTimeout(timerId);
         }
