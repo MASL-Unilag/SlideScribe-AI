@@ -7,7 +7,6 @@ import UploadData from "./UploadData.tsx";
 import axios from "axios";
 import usePPTXProcess from "../../../hooks/usePPTXProcess.ts";
 import Banner from "../../organisms/Banner.tsx";
-import { useNavigate } from "react-router-dom";
 import apiEndpoints from "../../../constants/apiEndpoints.ts";
 
 export default function UploadDialog({
@@ -29,7 +28,6 @@ export default function UploadDialog({
 	const [numberOfPages, setNumberOfPages] = useState(1);
 	const [includePictures, setIncludePictures] = useState(false);
 	const [documentStyle, setDocumentStyle] = useState("bullet-points");
-	const navigate = useNavigate();
 
 	const [button, setButton] = useState({
 		text: "Continue",
@@ -70,15 +68,25 @@ export default function UploadDialog({
 			formData.append("outputStyle", documentStyle);
 			formData.append("context", subject);
 
-			const res = await axios.post(`${apiEndpoints.slide}/generate`, formData, {
+			const accessToken = process.env.REACT_APP_BEARER_ACCESS_TOKEN;
+			const config = {
+				method: "post",
+				maxBodyLength: Infinity,
+				url: `${apiEndpoints.slide}/generate`,
 				headers: {
+					Authorization: `Bearer ${accessToken}`,
+					// ...formData.getHeaders(),
 					"Content-Type": "multipart/form-data",
 				},
-			});
-			setTrackingId(res.data.id);
-			// setTrackingId("12344444");
+				data: formData,
+			};
+
+			setPPTXStatus("processing");
+			const res = await axios.request(config);
+			setTrackingId(res.data.body.slideId);
 		} catch (err) {
 			console.error("Error: ", err);
+			setPPTXStatus("error");
 		}
 	};
 
@@ -93,9 +101,12 @@ export default function UploadDialog({
 	const cancelPPTXGen = () => {
 		setTrackingId(null);
 		setPPTXStatus("idle");
+		cancelFileUpload();
 	};
 
-	const previewPPTX = () => {};
+	const previewPPTX = () => {
+		setPage(2);
+	};
 
 	const onNext = () => {
 		if (!file) {
@@ -112,8 +123,6 @@ export default function UploadDialog({
 			case 1:
 				uploadData();
 				return;
-			case 2:
-				navigate(`dashboard/preview/${pptxUrl}`);
 		}
 	};
 
@@ -130,7 +139,7 @@ export default function UploadDialog({
 							/>
 						)}
 						<div className="modal_content flex flex-col bg-neutral-0 max-h-[80vh] rounded-md text-base">
-							<Header toggleOpen={toggleOpen} />
+							{page === 2 ? <></> : <Header toggleOpen={toggleOpen} />}
 							{page === 0 && (
 								<UploadFile
 									file={file}
@@ -157,12 +166,21 @@ export default function UploadDialog({
 									fileName={file!.name}
 								/>
 							)}
-							<Footer
-								toggleOpen={toggleOpen}
-								onNext={onNext}
-								buttonText={button.text}
-								buttonDisabled={button.disabled}
-							/>
+							{page === 2 && (
+								<iframe
+									src={`https://view.officeapps.live.com/op/embed.aspx?src=${pptxUrl!}`}
+									className="w-[90vw] h-[90vh]"></iframe>
+							)}
+							{page === 2 ? (
+								<></>
+							) : (
+								<Footer
+									toggleOpen={toggleOpen}
+									onNext={onNext}
+									buttonText={button.text}
+									buttonDisabled={button.disabled}
+								/>
+							)}
 						</div>
 					</>
 				}
