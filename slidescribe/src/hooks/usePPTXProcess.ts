@@ -1,6 +1,4 @@
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { Dispatch, SetStateAction } from "react";
+import axios from "axios";import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import apiEndpoints from "../constants/apiEndpoints";
 
 export type PPTXStatus = "error" | "completed" | "processing" | "idle";
@@ -31,6 +29,7 @@ const usePPTXProcess = (
 				if (res.data.data.status === "COMPLETED") {
 					setPPTXStatus("completed");
 					setPPtxUrl(res.data.data.file);
+					clearInterval(timerId.current!);
 				} else if (res.data.data.status === "PROCESSING") {
 					setPPTXStatus("processing");
 				}
