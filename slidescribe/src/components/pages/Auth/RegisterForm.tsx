@@ -24,16 +24,17 @@ export default function RegisterForm() {
 		{ setSubmitting }: FormikHelpers<AuthUserData>
 	) => {
 		Swal.fire({
-			title:"Signing up",
-			icon:"info"
-		})
+			title: "Signing up",
+			icon: "info",
+			showConfirmButton: false,
+		});
 		try {
 			const res = await authService.signup(values);
 			if (res.data.user_id) {
 				Swal.fire({
-					title:"You've successfully signed up",
-					icon:"success"
-				})
+					title: "You've successfully signed up",
+					icon: "success",
+				});
 				navigate("/login");
 			}
 		} catch (err: unknown) {

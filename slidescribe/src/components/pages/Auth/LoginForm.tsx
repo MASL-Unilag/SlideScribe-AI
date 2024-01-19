@@ -24,8 +24,9 @@ export default function LoginForm() {
 	) => {
 		Swal.fire({
 			title: "Logging in",
-			icon:"info"
-		})
+			icon: "info",
+			showConfirmButton: false,
+		});
 		try {
 			const res = await authService.login({
 				email: values.email,
@@ -36,13 +37,13 @@ export default function LoginForm() {
 				throw new Error("Invalid user credentials");
 			}
 			
-			localStorage.setItem("user", JSON.stringify(res.data.user))
+			localStorage.setItem("user", JSON.stringify(res.data.user));
 			saveToken(res.data.tokens);
 			navigate("/dashboard");
 			Swal.fire({
-				title:"You've successfully logged in",
-				icon:"success"
-			})
+				title: "You've successfully logged in",
+				icon: "success",
+			});
 		} catch (err: unknown) {
 			if (err instanceof Error) {
 				console.error("Login Error:", err.message);
