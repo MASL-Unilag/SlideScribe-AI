@@ -37,15 +37,9 @@ export default function UploadDialog({
 	useEffect(() => {
 		setButton({
 			text: page === 1 ? "Create slide" : "Continue",
-			disabled: file === null,
+			disabled: file === null || pptxStatus !== "idle",
 		});
-	}, [state, file, page]);
-
-	useEffect(() => {
-		if (pptxStatus === "completed") {
-			setButton({ ...button, text: "Preview" });
-		}
-	}, [pptxStatus, button]);
+	}, [state, file, page, pptxStatus]);
 
 	const toggleOpen = () => {
 		if (isOpen) {
