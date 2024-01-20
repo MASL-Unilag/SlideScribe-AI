@@ -28,6 +28,7 @@ export default function UploadDialog({
 	const [numberOfPages, setNumberOfPages] = useState(1);
 	const [includePictures, setIncludePictures] = useState(false);
 	const [documentStyle, setDocumentStyle] = useState("bullet-points");
+	const [outputLanguage, setOutputLanguage] = useState("english");
 
 	const [button, setButton] = useState({
 		text: "Continue",
@@ -59,10 +60,12 @@ export default function UploadDialog({
 			formData.append("topic", topic);
 			formData.append("includeImages", includePictures.toString());
 			formData.append("noOfPages", numberOfPages.toString());
+			formData.append("outputLanguage", outputLanguage);
 			formData.append("outputStyle", documentStyle);
 			formData.append("context", subject);
 
 			const accessToken = process.env.REACT_APP_BEARER_ACCESS_TOKEN;
+			console.log(formData);
 			const config = {
 				method: "post",
 				maxBodyLength: Infinity,
@@ -74,7 +77,7 @@ export default function UploadDialog({
 				},
 				data: formData,
 			};
-
+			
 			setPPTXStatus("processing");
 			const res = await axios.request(config);
 			setTrackingId(res.data.body.slideId);
@@ -157,13 +160,15 @@ export default function UploadDialog({
 									setIncludePictures={setIncludePictures}
 									documentStyle={documentStyle}
 									setDocumentStyle={setDocumentStyle}
+									outputLanguage={outputLanguage}
+									setOutputLanguage={setOutputLanguage}
 									fileName={file!.name}
 								/>
 							)}
 							{page === 2 && (
 								<iframe
 									src={`https://view.officeapps.live.com/op/embed.aspx?src=${pptxUrl!}`}
-									className="w-[90vw] h-[90vh]"></iframe>
+									className="w-[90vw] h-[100vh]"></iframe>
 							)}
 							{page === 2 ? (
 								<></>

@@ -12,6 +12,8 @@ interface UploadDataProps {
 	setIncludePictures: React.Dispatch<React.SetStateAction<boolean>>;
 	documentStyle: string;
 	setDocumentStyle: React.Dispatch<React.SetStateAction<string>>;
+	outputLanguage: string;
+	setOutputLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function UploadData({
@@ -26,6 +28,8 @@ export default function UploadData({
 	setIncludePictures,
 	documentStyle,
 	setDocumentStyle,
+	outputLanguage,
+	setOutputLanguage
 }: UploadDataProps) {
 	const documentStyles = [
 		{
@@ -36,6 +40,25 @@ export default function UploadData({
 			title: "Short paragraphs",
 			value: "short-paragraphs",
 		},
+	];
+
+	const languageOptions = [
+		{
+			title: "English",
+			value: "english",
+		},
+		{
+			title: "Yoruba",
+			value: "yoruba",
+		},
+		{
+			title: "Igbo",
+			value: "igbo",
+		},
+		{
+			title: "Hausa",
+			value: "hausa",
+		}
 	];
 
 	const formSectionClassName = "flex flex-col";
@@ -96,6 +119,31 @@ export default function UploadData({
 						required={true}
 					/>
 				</div>
+
+				<div>
+					<p className="mb-[0.88rem] text-neutral-900">Choose your preferred language style</p>
+					<div className="flex flex-col gap-2 ml-4">
+						{languageOptions.map((style, index) => (
+							<div key={index} className="flex items-center gap-2">
+								<input
+									id={style.value}
+									type="radio"
+									className="border-neutral-300 w-6 h-6"
+									name="language-style"
+									value={style.value}
+									checked={outputLanguage === style.value}
+									onChange={() => setOutputLanguage(style.value)}
+								/>
+								<label
+									htmlFor={style.value}
+									className="text-body text-neutral-500">
+									{style.title}
+								</label>
+							</div>
+						))}
+					</div>
+				</div>
+
 
 				<div className="flex gap-2">
 					<input
