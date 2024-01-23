@@ -121,7 +121,7 @@ export default function UploadData({
 				</div>
 
 				<div>
-					<p className="mb-[0.88rem] text-neutral-900">Choose your preferred language style</p>
+					<p className="mb-[0.88rem] text-neutral-900">Choose your preferred language option</p>
 					<div className="flex flex-col gap-2 ml-4">
 						{languageOptions.map((style, index) => (
 							<div key={index} className="flex items-center gap-2">

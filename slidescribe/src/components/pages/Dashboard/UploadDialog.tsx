@@ -65,7 +65,6 @@ export default function UploadDialog({
 			formData.append("context", subject);
 
 			const accessToken = process.env.REACT_APP_BEARER_ACCESS_TOKEN;
-			console.log(formData);
 			const config = {
 				method: "post",
 				maxBodyLength: Infinity,
@@ -168,7 +167,7 @@ export default function UploadDialog({
 							{page === 2 && (
 								<iframe
 									src={`https://view.officeapps.live.com/op/embed.aspx?src=${pptxUrl!}`}
-									className="w-[90vw] h-[100vh]"></iframe>
+									className="w-[90vw] h-[90vh]"></iframe>
 							)}
 							{page === 2 ? (
 								<></>
