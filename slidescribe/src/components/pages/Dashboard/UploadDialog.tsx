@@ -1,6 +1,6 @@
 import React, {MouseEventHandler, useEffect, useState} from "react";
 import Overlays from "../../organisms/Overlays.tsx";
-import {MdClose, MdInfoOutline} from "react-icons/md";
+import {MdInfoOutline} from "react-icons/md";
 import Button from "../../organisms/Button.tsx";
 import UploadFile, {maxFileSize} from "./UploadFile.tsx";
 import UploadData, {uploadDataFormId} from "./UploadData.tsx";
@@ -8,6 +8,8 @@ import axios, {AxiosRequestConfig} from "axios";
 import usePptxProcess from "../../../hooks/usePptxProcess.ts";
 import apiEndpoints from "../../../constants/apiEndpoints.ts";
 import {UploadDialogPage} from "./UploadDialog.element.ts";
+import {CloseButton} from "../../organisms/CloseButton.tsx";
+import {PresentationPreview} from "../../organisms/PresentationPreview.tsx";
 
 export default function UploadDialog(
     {
@@ -165,7 +167,7 @@ export default function UploadDialog(
                 children={
                     <>
                         <div className="modal_content flex flex-col bg-neutral-0 max-h-[80vh] rounded-md text-base">
-                            {page === UploadDialogPage.preview ? <></> : <Header toggleOpen={toggleOpen}/>}
+                            {page === UploadDialogPage.preview ? <></> : <Header close={toggleOpen}/>}
                             <UploadFile
                                 file={file}
                                 state={pptxState}
@@ -194,10 +196,7 @@ export default function UploadDialog(
                                 />
                             )}
                             {page === UploadDialogPage.preview ? (
-                                <iframe
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${pptxUrl!}`}
-                                    className="w-[90vw] h-[90vh]"
-                                />
+                                <PresentationPreview url={pptxUrl!} close={toggleOpen}/>
                             ) : (
                                 <Footer
                                     onBack={onPrevious}
@@ -218,8 +217,8 @@ export default function UploadDialog(
 
 function Header(
     {
-        toggleOpen
-    }: { toggleOpen: () => void }
+        close
+    }: { close: () => void }
 ) {
     return (
         <>
@@ -228,12 +227,7 @@ function Header(
                     <h1 className="text-body text-neutral-900 font-medium">
                         Create new slide
                     </h1>
-                    <button
-                        className="border border-solid border-neutral-50 rounded-md p-1"
-                        onClick={toggleOpen}
-                        type="button">
-                        <MdClose className="w-4 text-neutral-900"/>
-                    </button>
+                    <CloseButton close={close}/>
                 </div>
                 <hr className="text-neutral-50"/>
             </div>
