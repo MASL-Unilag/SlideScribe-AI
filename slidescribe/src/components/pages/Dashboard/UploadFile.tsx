@@ -1,44 +1,52 @@
 import {Colors} from '../../../../tailwind.config.ts'
 
-import {MdClose, MdInfoOutline} from "react-icons/md";
+import {MdClose, MdErrorOutline} from "react-icons/md";
+import {TbFileMusic} from "react-icons/tb";
 import {BsCheckCircleFill} from "react-icons/bs";
 import Button from "../../organisms/Button.tsx";
 import {CSSProperties, useRef} from "react";
 import {formatFileSize} from "../../../utils/formatters.ts";
 import {DocIcon, PdfIcon, TxtIcon} from "../../organisms/Icons.tsx";
+import {UploadDialogPage} from "./UploadDialog.element.ts";
+import {AiOutlineLoading} from "react-icons/ai";
 
-export default function UploadFile({file, state, progress, status, onFileChange, onReUpload, onCancel}: {
-    file: File | null,
-    state: FileUploadState,
-    progress: number,
-    status?: string,
-    onFileChange: (file: File) => void,
-    onReUpload: () => void,
-    onCancel: () => void
-}) {
+export default function UploadFile(
+    {
+        file,
+        state,
+        page,
+        progress,
+        message,
+        onFileChange,
+        onReUpload,
+        onCancel
+    }: UploadFileProps
+) {
+    const content = page === UploadDialogPage.selectFile ? (
+        <EmptyFileUpload onFileSelected={onFileChange}/>
+    ) : page === UploadDialogPage.upload && file ? (
+        <ProgressFileUpload
+            file={file}
+            state={state}
+            progress={progress}
+            message={message}
+            onReUpload={onReUpload}
+            onCancel={onCancel}
+        />
+    ) : null
+
     return (
-        <div
-            className="px-8 py-6 mx-8 mt-10 rounded-md border-2 border-dotted flex flex-1 justify-center items-center bg-[#fafbfc]"
-        >
-            {
-                file ?
-                    <ProgressFileUpload
-                        file={file}
-                        state={state}
-                        progress={progress}
-                        status={status}
-                        onReUpload={onReUpload}
-                        onCancel={onCancel}
-                    /> : <EmptyFileUpload onFileSelected={onFileChange}/>
-            }
-        </div>
+        content && (
+            <div
+                className="px-8 py-6 mx-8 mt-10 rounded-md max-h-full border-2 border-dotted flex flex-1 justify-center items-center bg-[#fafbfc]">
+                {content}
+            </div>
+        )
     )
 }
 
 
-function EmptyFileUpload(
-    {onFileSelected}: { onFileSelected: (file: File) => void }
-) {
+function EmptyFileUpload({onFileSelected}: { onFileSelected: (file: File) => void }) {
     const inputRef = useRef<HTMLInputElement>(null)
 
     const color = Colors.neutral["80"]
@@ -54,7 +62,13 @@ function EmptyFileUpload(
     const handleFileSelected = () => {
         const files = inputRef.current?.files
         if (files) {
-            onFileSelected(files[0])
+            const file = files[0]
+            // if file greater than maxFileSize, show error
+            if (file.size > maxFileSize * 1024 * 1024) {
+                alert(`File size should not be greater than ${maxFileSize}MB`)
+                return
+            }
+            onFileSelected(file)
         }
     }
 
@@ -63,6 +77,7 @@ function EmptyFileUpload(
             <div className="notes flex gap-0">
                 <DocIcon style={{...documentStyle, transform: "rotate(-16deg)"}} color={color}/>
                 <PdfIcon style={documentStyle} color={color}/>
+                <TbFileMusic color={color} size={documentStyle.width}/>
                 <TxtIcon style={{...documentStyle, transform: "rotate(16deg)"}} color={color}/>
             </div>
             <div className="text-center mt-6 text-caption text-neutral-700">
@@ -84,7 +99,7 @@ function EmptyFileUpload(
                     type="file"
                     name="file"
                     id="file"
-                    accept=".pdf,.doc,.docx,.txt"
+                    accept=".pdf,.doc,.docx,.txt,audio/*"
                     ref={inputRef}
                     onChange={handleFileSelected}
                 />
@@ -93,20 +108,16 @@ function EmptyFileUpload(
     )
 }
 
-function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel}: {
-    file: File,
-    state: FileUploadState,
-    progress: number,
-    status?: string,
-    onReUpload: () => void,
-    onCancel: () => void
-}) {
+function ProgressFileUpload({file, state, progress, message, onReUpload, onCancel}: ProgressFileUploadProps) {
     const borderColor = state === 'error' ? 'border-red-500' : state === 'success' ? 'border-green-300' : 'border-neutral-200'
     const progressColor = state === 'error' ? 'bg-red-500' : state === 'success' ? 'bg-green-300' : 'bg-neutral-200'
     const textColor = state === 'error' ? Colors.red['300'] : state === 'success' ? Colors.green['300'] : Colors.neutral['200']
 
     const extension = file.name.split('.').pop()
-    const Icon = extension === 'pdf' ? PdfIcon : extension === 'txt' ? TxtIcon : DocIcon
+    const Icon = extension === 'pdf' ? PdfIcon
+        : extension === 'txt' ? TxtIcon :
+            extension?.startsWith('doc') ? DocIcon :
+                TbFileMusic
 
     return (
         <div className="flex flex-col items-center justify-center w-full">
@@ -140,7 +151,7 @@ function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel
                 state !== 'default' && (
                     <div className="flex flex-col flex-1 gap-[1.13rem] items-center mt-8">
                         <p className="text-body font-medium text-neutral-900">
-                            {status}
+                            {message}
                             {state === 'error' && (
                                 <button
                                     onClick={onReUpload}
@@ -151,8 +162,9 @@ function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel
                                 </button>
                             )}
                         </p>
+                        {state === 'loading' && <AiOutlineLoading className="w-6 animate-spin text-neutral-200"/>}
                         {state === 'success' && <BsCheckCircleFill className="w-6 text-green-300"/>}
-                        {state === 'error' && <MdInfoOutline className="w-6 text-red-500"/>}
+                        {state === 'error' && <MdErrorOutline className="w-6 text-red-500"/>}
                     </div>
                 )
             }
@@ -160,4 +172,26 @@ function ProgressFileUpload({file, state, progress, status, onReUpload, onCancel
     )
 }
 
+export const maxFileSize = 10
+
 export type FileUploadState = 'default' | 'loading' | 'success' | 'error'
+
+type UploadFileProps = {
+    file: File | null,
+    page: UploadDialogPage,
+    state: FileUploadState,
+    progress: number,
+    message?: string,
+    onFileChange: (file: File) => void,
+    onReUpload: () => void,
+    onCancel: () => void
+}
+
+type ProgressFileUploadProps = {
+    file: File,
+    state: FileUploadState,
+    progress: number,
+    message?: string,
+    onReUpload: () => void,
+    onCancel: () => void
+}
