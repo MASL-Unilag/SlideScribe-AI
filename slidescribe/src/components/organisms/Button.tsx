@@ -3,14 +3,13 @@ import React from "react";
 type CustomButtonVariant = "primary" | "secondary" | "tertiary" | "quaternary";
 type CustomButtonType = "button" | "submit" | "reset" | undefined;
 
-type ButtonProps = {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: CustomButtonVariant;
     children: React.ReactNode;
-    onClick?: () => void;
     styleHolder?: string;
     type?: CustomButtonType;
     disabled?: boolean | undefined;
-};
+}
 
 const Button: React.FC<ButtonProps> = (
     {
@@ -20,6 +19,7 @@ const Button: React.FC<ButtonProps> = (
         onClick,
         styleHolder,
         disabled,
+        ...props
     }
 ) => {
     const buttonClasses = `px-3 py-2 rounded text-sm font-medium cursor-pointer w-full ${
@@ -33,20 +33,14 @@ const Button: React.FC<ButtonProps> = (
                         ? "bg-[#fbfbfc] border border-solid border-[#dfe1e6]  hover:bg-purple-400 hover:border-purple-50 hover:text-neutral-0"
                         : ""
     }  
-  ${styleHolder}
-  ${disabled && "opacity-50 cursor-not-allowed"}`;
+    ${styleHolder}
+    ${disabled && "opacity-50 cursor-not-allowed"}
+  `;
 
     return (
-        <div>
-            <button
-                className={buttonClasses}
-                type={type}
-                onClick={onClick}
-                disabled={disabled}
-            >
-                {children}
-            </button>
-        </div>
+        <button className={buttonClasses} type={type} onClick={onClick} disabled={disabled} {...props}>
+            {children}
+        </button>
     );
 };
 
