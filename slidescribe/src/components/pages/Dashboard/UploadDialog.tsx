@@ -1,252 +1,291 @@
-import { useEffect, useState } from "react";
+import React, {MouseEventHandler, useEffect, useState} from "react";
 import Overlays from "../../organisms/Overlays.tsx";
-import { MdClose, MdInfoOutline } from "react-icons/md";
+import {MdInfoOutline} from "react-icons/md";
 import Button from "../../organisms/Button.tsx";
-import UploadFile, { FileUploadState } from "./UploadFile.tsx";
-import UploadData from "./UploadData.tsx";
-import axios from "axios";
-import usePPTXProcess from "../../../hooks/usePPTXProcess.ts";
-import Banner from "../../organisms/Banner.tsx";
+import UploadFile, {maxFileSize} from "./UploadFile.tsx";
+import UploadData, {uploadDataFormId} from "./UploadData.tsx";
+import axios, {AxiosRequestConfig} from "axios";
+import usePptxProcess from "../../../hooks/usePptxProcess.ts";
 import apiEndpoints from "../../../constants/apiEndpoints.ts";
+import {UploadDialogPage} from "./UploadDialog.element.ts";
+import {CloseButton} from "../../organisms/CloseButton.tsx";
+import {PresentationPreview} from "../../organisms/PresentationPreview.tsx";
 
-export default function UploadDialog({
-	isOpen,
-	setIsOpen,
-}: {
-	isOpen: boolean;
-	setIsOpen: (isOpen: boolean) => void;
-}) {
-	const [state, setState] = useState<FileUploadState>("default");
-	const [progress, setProgress] = useState<number>(0);
-	const [file, setFile] = useState<File | null>(null);
-	const [page, setPage] = useState<number>(0);
-	const [status, setStatus] = useState<string>();
-	const [trackingId, setTrackingId] = useState<string | null>(null);
-	const [pptxStatus, pptxUrl, setPPTXStatus] = usePPTXProcess(trackingId);
-	const [topic, setTopic] = useState("");
-	const [subject, setSubject] = useState("");
-	const [numberOfPages, setNumberOfPages] = useState(1);
-	const [includePictures, setIncludePictures] = useState(false);
-	const [documentStyle, setDocumentStyle] = useState("bullet-points");
-	const [outputLanguage, setOutputLanguage] = useState("english");
+export default function UploadDialog(
+    {
+        isOpen,
+        setIsOpen
+    }: UploadDialogProps
+) {
+    const [progress, setProgress] = useState<number>(0);
+    const [file, setFile] = useState<File | null>(null);
+    const [page, setPage] = useState<UploadDialogPage>(UploadDialogPage.selectFile);
+    const [trackingId, setTrackingId] = useState<string | null>(null);
+    const [pptxState, pptxUrl, setPptxState] = usePptxProcess(trackingId);
+    const [uploadMessage, setUploadMessage] = useState<string>();
+    const [topic, setTopic] = useState("");
+    const [subject, setSubject] = useState("");
+    const [numberOfPages, setNumberOfPages] = useState(1);
+    const [includePictures, setIncludePictures] = useState(false);
+    const [documentStyle, setDocumentStyle] = useState("bullet-points");
+    const [outputLanguage, setOutputLanguage] = useState("english");
 
-	const [button, setButton] = useState({
-		text: "Continue",
-		disabled: true,
-	});
+    const [nextButton, setNextButton] = useState({
+        text: "Continue",
+        disabled: true,
+        submit: false,
+    });
+    const [previousButton, setPreviousButton] = useState("Cancel");
 
-	useEffect(() => {
-		setButton({
-			text: page === 1 ? "Create slide" : "Continue",
-			disabled: file === null || pptxStatus !== "idle",
-		});
-	}, [state, file, page, pptxStatus]);
+    useEffect(() => {
+        setNextButton({
+            text: page === UploadDialogPage.inputData ? "Create slide" : pptxState === "success" ? "Preview" : "Continue",
+            disabled: file === null || pptxState === "error" || pptxState === "loading",
+            submit: page === UploadDialogPage.inputData,
+        });
+    }, [pptxState, file, page]);
 
-	const toggleOpen = () => {
-		if (isOpen) {
-			cancelFileUpload();
-			cancelPPTXGen();
-		}
-		setIsOpen(!isOpen);
-	};
+    useEffect(() => {
+        setPreviousButton(page === UploadDialogPage.selectFile ? "Cancel" : "Back");
+    }, [page]);
 
-	const uploadFile = () => {};
+    useEffect(() => {
+        switch (pptxState) {
+            case "success":
+                setUploadMessage("Your presentation has been successfully generated");
+                break;
+            case "loading":
+                setUploadMessage("Please wait as your presentation is being generated");
+                break;
+            case "error":
+                setUploadMessage("There was an error while generating...  ");
+                break;
+            default:
+                setUploadMessage(undefined);
+        }
+    }, [pptxState]);
 
-	const uploadData = async () => {
-		//Send file and info to the backend for pptx generation
-		try {
-			const formData = new FormData();
-			formData.append("file", file!);
-			formData.append("topic", topic);
-			formData.append("includeImages", includePictures.toString());
-			formData.append("noOfPages", numberOfPages.toString());
-			formData.append("outputLanguage", outputLanguage);
-			formData.append("outputStyle", documentStyle);
-			formData.append("context", subject);
+    const toggleOpen = () => {
+        if (isOpen) {
+            cancelUpload();
+        }
+        setIsOpen(!isOpen);
+    };
 
-			const accessToken = process.env.REACT_APP_BEARER_ACCESS_TOKEN;
-			const config = {
-				method: "post",
-				maxBodyLength: Infinity,
-				url: `${apiEndpoints.slide}/generate`,
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					// ...formData.getHeaders(),
-					"Content-Type": "multipart/form-data",
-				},
-				data: formData,
-			};
-			
-			setPPTXStatus("processing");
-			const res = await axios.request(config);
-			setTrackingId(res.data.body.slideId);
-		} catch (err) {
-			console.error("Error: ", err);
-			setPPTXStatus("error");
-		}
-	};
+    const upload = async () => {
+        //Send file and info to the backend for pptx generation
+        try {
+            setProgress(0)
 
-	const cancelFileUpload = () => {
-		setState("default");
-		setFile(null);
-		setStatus(undefined);
-		setProgress(0);
-		setPage(0);
-	};
+            const formData = new FormData();
+            formData.append("file", file!);
+            formData.append("topic", topic);
+            formData.append("includeImages", includePictures.toString());
+            formData.append("noOfPages", numberOfPages.toString());
+            formData.append("outputLanguage", outputLanguage);
+            formData.append("outputStyle", documentStyle);
+            formData.append("context", subject);
 
-	const cancelPPTXGen = () => {
-		setTrackingId(null);
-		setPPTXStatus("idle");
-		cancelFileUpload();
-	};
+            const accessToken = process.env.REACT_APP_BEARER_ACCESS_TOKEN;
+            const config: AxiosRequestConfig = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: `${apiEndpoints.slide}/generate`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    // ...formData.getHeaders(),
+                    "Content-Type": "multipart/form-data",
+                },
+                data: formData,
+                onUploadProgress: (progressEvent) => {
+                    const percentCompleted = Math.round(
+                        (progressEvent.loaded * 100) / (progressEvent.total ?? 0)
+                    );
+                    setProgress(percentCompleted);
+                }
+            };
 
-	const previewPPTX = () => {
-		setPage(2);
-	};
+            setPptxState("loading")
 
-	const onNext = () => {
-		if (!file) {
-			return;
-		}
-		switch (page) {
-			case 0:
-				// if file upload has not begun, start it
-				setState("error");
-				setStatus("Uploading...");
-				uploadFile();
-				setPage(1);
-				return;
-			case 1:
-				uploadData();
-				return;
-		}
-	};
+            const res = await axios.request(config);
+            setTrackingId(res.data.body.slideId);
+        } catch (err) {
+            console.error("Error: ", err);
+            setPptxState("error");
+        }
+    };
 
-	return (
-		<div className="modal">
-			<Overlays
-				children={
-					<>
-						{pptxStatus !== "idle" && (
-							<Banner
-								status={pptxStatus}
-								cancelPPTXGen={cancelPPTXGen}
-								previewPPTX={previewPPTX}
-							/>
-						)}
-						<div className="modal_content flex flex-col bg-neutral-0 max-h-[80vh] rounded-md text-base">
-							{page === 2 ? <></> : <Header toggleOpen={toggleOpen} />}
-							{page === 0 && (
-								<UploadFile
-									file={file}
-									state={state}
-									progress={progress}
-									status={status}
-									onFileChange={setFile}
-									onReUpload={uploadFile}
-									onCancel={cancelFileUpload}
-								/>
-							)}
-							{page === 1 && (
-								<UploadData
-									topic={topic}
-									setTopic={setTopic}
-									subject={subject}
-									setSubject={setSubject}
-									numberOfPages={numberOfPages}
-									setNumberOfPages={setNumberOfPages}
-									includePictures={includePictures}
-									setIncludePictures={setIncludePictures}
-									documentStyle={documentStyle}
-									setDocumentStyle={setDocumentStyle}
-									outputLanguage={outputLanguage}
-									setOutputLanguage={setOutputLanguage}
-									fileName={file!.name}
-								/>
-							)}
-							{page === 2 && (
-								<iframe
-									src={`https://view.officeapps.live.com/op/embed.aspx?src=${pptxUrl!}`}
-									className="w-[90vw] h-[90vh]"></iframe>
-							)}
-							{page === 2 ? (
-								<></>
-							) : (
-								<Footer
-									toggleOpen={toggleOpen}
-									onNext={onNext}
-									buttonText={button.text}
-									buttonDisabled={button.disabled}
-								/>
-							)}
-						</div>
-					</>
-				}
-				isOpen={isOpen}
-			/>
-		</div>
-	);
+    const cancelUpload = () => {
+        setTrackingId(null);
+        setPptxState("default");
+        setFile(null);
+        setUploadMessage(undefined);
+        setProgress(0);
+        setPage(UploadDialogPage.selectFile);
+    };
+
+    const onFileChange = (file: File) => {
+        setFile(file);
+        setPage(UploadDialogPage.inputData);
+    }
+
+    const onNext = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+
+        if (!file) {
+            return;
+        } else if (page === UploadDialogPage.inputData) {
+            const form = document.getElementById(uploadDataFormId) as HTMLFormElement;
+            if (!form?.reportValidity()) {
+                return;
+            }
+        }
+
+        setPage(page + 1);
+
+        if (page === UploadDialogPage.inputData) {
+            await upload();
+        }
+    };
+
+
+    const onPrevious = () => {
+        switch (page) {
+            case UploadDialogPage.selectFile:
+                toggleOpen();
+                return;
+            case UploadDialogPage.upload:
+                setPptxState("default");
+                break;
+        }
+        setPage(page - 1);
+    }
+
+    return (
+        <div className="modal">
+            <Overlays
+                children={
+                    <>
+                        <div className="modal_content flex flex-col bg-neutral-0 max-h-[80vh] rounded-md text-base">
+                            {page === UploadDialogPage.preview ? <></> : <Header close={toggleOpen}/>}
+                            <UploadFile
+                                file={file}
+                                state={pptxState}
+                                page={page}
+                                progress={progress}
+                                message={uploadMessage}
+                                onFileChange={onFileChange}
+                                onReUpload={upload}
+                                onCancel={cancelUpload}
+                            />
+                            {page === UploadDialogPage.inputData && (
+                                <UploadData
+                                    topic={topic}
+                                    setTopic={setTopic}
+                                    subject={subject}
+                                    setSubject={setSubject}
+                                    numberOfPages={numberOfPages}
+                                    setNumberOfPages={setNumberOfPages}
+                                    includePictures={includePictures}
+                                    setIncludePictures={setIncludePictures}
+                                    documentStyle={documentStyle}
+                                    setDocumentStyle={setDocumentStyle}
+                                    outputLanguage={outputLanguage}
+                                    setOutputLanguage={setOutputLanguage}
+                                    fileName={file!.name}
+                                />
+                            )}
+                            {page === UploadDialogPage.preview ? (
+                                <PresentationPreview url={pptxUrl!} close={toggleOpen}/>
+                            ) : (
+                                <Footer
+                                    onBack={onPrevious}
+                                    onNext={onNext}
+                                    nextText={nextButton.text}
+                                    previousText={previousButton}
+                                    nextDisabled={nextButton.disabled}
+                                />
+                            )}
+                        </div>
+                    </>
+                }
+                isOpen={isOpen}
+            />
+        </div>
+    );
 }
 
-function Header({ toggleOpen }: { toggleOpen: () => void }) {
-	return (
-		<>
-			<div className="top_modal">
-				<div className="top_modal-nav flex justify-between items-center py-4 px-6">
-					<h1 className="text-body text-neutral-900 font-medium">
-						Create new slide
-					</h1>
-					<button
-						className="border border-solid border-neutral-50 rounded-md p-1"
-						onClick={toggleOpen}
-						type="button">
-						<MdClose className="w-4 text-neutral-900" />
-					</button>
-				</div>
-				<hr className="text-neutral-50" />
-			</div>
-			<div className="flex items-center gap-2 mt-6 px-8">
-				<MdInfoOutline className="w-4 text-neutral-200" />
-				<p className="text-caption text-neutral-500">
-					Single upload file should not be more than 10MB. <b>PDF, DOC, TXT</b>{" "}
-					file are supported.
-				</p>
-			</div>
-		</>
-	);
+function Header(
+    {
+        close
+    }: { close: () => void }
+) {
+    return (
+        <>
+            <div className="top_modal">
+                <div className="top_modal-nav flex justify-between items-center py-4 px-6">
+                    <h1 className="text-body text-neutral-900 font-medium">
+                        Create new slide
+                    </h1>
+                    <CloseButton close={close}/>
+                </div>
+                <hr className="text-neutral-50"/>
+            </div>
+            <div className="flex items-center gap-2 mt-6 px-8">
+                <MdInfoOutline className="w-4 text-neutral-200"/>
+                <p className="text-caption text-neutral-500">
+                    Single upload file should not be more than {maxFileSize}MB. <b>PDF, DOC, MP3, TXT</b> files are
+                    supported.
+                </p>
+            </div>
+        </>
+    );
 }
 
-function Footer({
-	toggleOpen,
-	buttonText,
-	buttonDisabled,
-	onNext,
-}: {
-	toggleOpen: () => void;
-	buttonText: string;
-	buttonDisabled: boolean;
-	onNext: () => void;
-}) {
-	return (
-		<div className="modal-footer mt-10">
-			<hr className="text-neutral-50" />
-			<div className="top_modal-nav flex justify-end gap-4 items-center py-2 px-8">
-				<Button
-					variant="quaternary"
-					type="button"
-					styleHolder="w-max text-sm font-medium"
-					onClick={toggleOpen}>
-					Cancel
-				</Button>
-				<Button
-					variant="primary"
-					type="button"
-					styleHolder="w-max text-sm font-medium"
-					disabled={buttonDisabled}
-					onClick={onNext}>
-					{buttonText}
-				</Button>
-			</div>
-		</div>
-	);
+function Footer(
+    {
+        onBack,
+        nextText,
+        previousText,
+        nextDisabled,
+        onNext
+    }: FooterProps
+) {
+    return (
+        <div className="modal-footer mt-10">
+            <hr className="text-neutral-50"/>
+            <div className="top_modal-nav flex justify-end gap-4 items-center py-2 px-8">
+                <Button
+                    variant="quaternary"
+                    styleHolder="w-max text-sm font-medium"
+                    onClick={onBack}
+                >
+                    {previousText}
+                </Button>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    styleHolder="w-max text-sm font-medium"
+                    disabled={nextDisabled}
+                    onClick={onNext}
+                    form={uploadDataFormId}
+                >
+                    {nextText}
+                </Button>
+            </div>
+        </div>
+    );
+}
+
+type UploadDialogProps = {
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
+}
+
+type FooterProps = {
+    nextText: string;
+    nextDisabled: boolean;
+    previousText: string;
+    onBack: () => void;
+    onNext: MouseEventHandler<HTMLButtonElement>;
 }
