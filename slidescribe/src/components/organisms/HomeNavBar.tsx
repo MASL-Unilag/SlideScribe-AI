@@ -5,12 +5,10 @@ import {useState} from "react";
 import {AiOutlineClose, AiOutlineMenu} from "react-icons/ai";
 
 export default function Navigation({currentScreen}: { currentScreen?: string }) {
-    // State to manage the navbar visibility
-    const [nav, setNav] = useState(false)
+    const [visible, setVisible] = useState(false)
 
-    // Toggle function to handle the navbar display
-    const toggleNav = () => {
-        setNav(!nav);
+    const toggleVisibility = () => {
+        setVisible(!visible);
     }
 
     const getScreens = (classes: string) => {
@@ -43,8 +41,8 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
             <div className="flex items-center justify-between text-sm font-medium py-4 md:w-h m-auto px-h md:px-0">
 
                 {/* Mobile Navigation Icon */}
-                <div onClick={toggleNav} className='block md:hidden'>
-                    {nav ? <AiOutlineClose size={20}/> : <AiOutlineMenu size={20}/>}
+                <div onClick={toggleVisibility} className='block md:hidden'>
+                    {visible ? <AiOutlineClose size={20}/> : <AiOutlineMenu size={20}/>}
                 </div>
 
                 {/* Logo */}
@@ -69,9 +67,11 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
             {/* Mobile Navigation Menu */}
             <ul
                 className={
-                    nav
-                        ? 'block md:hidden border-r border-r-gray-900 ease-in-out duration-1000 p-h'
-                        : 'ease-in-out hidden duration-1000'
+                    `
+                        overflow-hidden
+                        border-r border-r-gray-900 ease-in-out duration-1000
+                        ${visible ? "p-h" : "h-0"}
+                    `
                 }
             >
                 {getScreens('block py-4 text-center')}
