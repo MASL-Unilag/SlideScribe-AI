@@ -7,7 +7,7 @@ import Button from "../../organisms/Button.tsx";
 import {CSSProperties, useRef} from "react";
 import {formatFileSize} from "../../../utils/formatters.ts";
 import {DocIcon, PdfIcon, TxtIcon} from "../../organisms/Icons.tsx";
-import {UploadDialogPage} from "./UploadDialog.element.ts";
+import {UploadDialogPage} from "./Dashboard.element.ts";
 import {AiOutlineLoading} from "react-icons/ai";
 
 export default function UploadFile(

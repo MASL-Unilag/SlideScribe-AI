@@ -1,21 +1,22 @@
 import Button from "../../organisms/Button.tsx";
 import UploadDialog from "./UploadDialog.tsx";
+import {useState} from "react";
+import {useSidebar} from "./Dashboard.element.ts";
 
-type Props = {
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
-};
+export default function DashboardPage() {
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const {navigationButton} = useSidebar()
 
-const DashboardPage = (props: Props) => {
     return (
         <>
             <div className="top px-8 py-8">
-                <div className="top-nav flex justify-between">
+                <div className="top-nav flex items-center justify-between">
+                    {navigationButton}
                     <h1>Dashboard</h1>
                     <Button
                         variant="primary"
                         styleHolder="w-max"
-                        onClick={() => props.setIsOpen(!props.isOpen)}
+                        onClick={() => setIsDialogOpen(!isDialogOpen)}
                     >
                         + New Slide
                     </Button>
@@ -23,11 +24,9 @@ const DashboardPage = (props: Props) => {
             </div>
             <div className="content"></div>
             <UploadDialog
-                isOpen={props.isOpen}
-                setIsOpen={props.setIsOpen}
+                isOpen={isDialogOpen}
+                setIsOpen={setIsDialogOpen}
             />
         </>
     );
-};
-
-export default DashboardPage;
+}

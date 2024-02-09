@@ -14,9 +14,9 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
     }
 
     const getScreens = (classes: string) => {
-        return screens.map((screen, index) => (
+        return screens.map((screen) => (
             <Link
-                key={index}
+                key={screen.link}
                 className={`${classes} px-3 py-2 cursor-pointer  text-neutral-900 ${screen.name === currentScreen && "border-b-2 border-purple-400"}`}
                 to={screen.link}
             >
@@ -26,12 +26,12 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
     }
 
     const buttons = [
-        <Button variant="tertiary">
+        <Button variant="tertiary" key="tertiary">
             <Link to="/login">
                 Login
             </Link>
         </Button>,
-        <Button variant="secondary">
+        <Button variant="secondary" key="secondary">
             <Link to="/signup">
                 Get started for free
             </Link>
@@ -50,11 +50,7 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
                 {/* Logo */}
                 <div className="flex gap-3 items-center">
                     <img src={logo} alt="SlideScribe AI"/>
-                    <span className="text-neutral-900">
-                      <Link to="/">
-                      SlideScribe AI
-                      </Link>
-                      </span>
+                    <Link to="/" className="text-neutral-900">SlideScribe AI</Link>
                 </div>
 
                 {/* Desktop Navigation */}
