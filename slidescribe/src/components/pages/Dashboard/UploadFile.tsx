@@ -7,7 +7,7 @@ import Button from "../../organisms/Button.tsx";
 import {CSSProperties, useRef} from "react";
 import {formatFileSize} from "../../../utils/formatters.ts";
 import {DocIcon, PdfIcon, TxtIcon} from "../../organisms/Icons.tsx";
-import {UploadDialogPage} from "./UploadDialog.element.ts";
+import {UploadDialogPage} from "./Dashboard.element.ts";
 import {AiOutlineLoading} from "react-icons/ai";
 
 export default function UploadFile(
@@ -48,6 +48,7 @@ export default function UploadFile(
 
 function EmptyFileUpload({onFileSelected}: { onFileSelected: (file: File) => void }) {
     const inputRef = useRef<HTMLInputElement>(null)
+    const supportedFileExtensions = ['pdf', 'doc', 'docx', 'txt', 'mp3']
 
     const color = Colors.neutral["80"]
     const documentStyle: CSSProperties = {
@@ -63,6 +64,13 @@ function EmptyFileUpload({onFileSelected}: { onFileSelected: (file: File) => voi
         const files = inputRef.current?.files
         if (files) {
             const file = files[0]
+            // since mobile browsers don't support file type validation
+            // we have to check the file extension manually
+            const extension = file.name.split('.').pop()
+            if (!extension || !supportedFileExtensions.includes(extension)) {
+                alert(`File type not supported. Supported file types are ${supportedFileExtensions.join(', ')}`)
+                return
+            }
             // if file greater than maxFileSize, show error
             if (file.size > maxFileSize * 1024 * 1024) {
                 alert(`File size should not be greater than ${maxFileSize}MB`)
@@ -99,7 +107,7 @@ function EmptyFileUpload({onFileSelected}: { onFileSelected: (file: File) => voi
                     type="file"
                     name="file"
                     id="file"
-                    accept=".pdf,.doc,.docx,.txt,audio/*"
+                    accept={supportedFileExtensions.map(ext => `.${ext}`).join(', ')}
                     ref={inputRef}
                     onChange={handleFileSelected}
                 />

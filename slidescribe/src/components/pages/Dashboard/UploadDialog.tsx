@@ -7,7 +7,7 @@ import UploadData, {uploadDataFormId} from "./UploadData.tsx";
 import axios, {AxiosRequestConfig} from "axios";
 import usePptxProcess from "../../../hooks/usePptxProcess.ts";
 import apiEndpoints from "../../../constants/apiEndpoints.ts";
-import {UploadDialogPage} from "./UploadDialog.element.ts";
+import {UploadDialogPage} from "./Dashboard.element.ts";
 import {CloseButton} from "../../organisms/CloseButton.tsx";
 import {PresentationPreview} from "../../organisms/PresentationPreview.tsx";
 

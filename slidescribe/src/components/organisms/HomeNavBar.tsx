@@ -5,18 +5,16 @@ import {useState} from "react";
 import {AiOutlineClose, AiOutlineMenu} from "react-icons/ai";
 
 export default function Navigation({currentScreen}: { currentScreen?: string }) {
-    // State to manage the navbar visibility
-    const [nav, setNav] = useState(false)
+    const [visible, setVisible] = useState(false)
 
-    // Toggle function to handle the navbar display
-    const toggleNav = () => {
-        setNav(!nav);
+    const toggleVisibility = () => {
+        setVisible(!visible);
     }
 
     const getScreens = (classes: string) => {
-        return screens.map((screen, index) => (
+        return screens.map((screen) => (
             <Link
-                key={index}
+                key={screen.link}
                 className={`${classes} px-3 py-2 cursor-pointer  text-neutral-900 ${screen.name === currentScreen && "border-b-2 border-purple-400"}`}
                 to={screen.link}
             >
@@ -26,12 +24,12 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
     }
 
     const buttons = [
-        <Button variant="tertiary">
+        <Button variant="tertiary" key="tertiary">
             <Link to="/login">
                 Login
             </Link>
         </Button>,
-        <Button variant="secondary">
+        <Button variant="secondary" key="secondary">
             <Link to="/signup">
                 Get started for free
             </Link>
@@ -43,18 +41,14 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
             <div className="flex items-center justify-between text-sm font-medium py-4 md:w-h m-auto px-h md:px-0">
 
                 {/* Mobile Navigation Icon */}
-                <div onClick={toggleNav} className='block md:hidden'>
-                    {nav ? <AiOutlineClose size={20}/> : <AiOutlineMenu size={20}/>}
+                <div onClick={toggleVisibility} className='block md:hidden'>
+                    {visible ? <AiOutlineClose size={20}/> : <AiOutlineMenu size={20}/>}
                 </div>
 
                 {/* Logo */}
                 <div className="flex gap-3 items-center">
                     <img src={logo} alt="SlideScribe AI"/>
-                    <span className="text-neutral-900">
-                      <Link to="/">
-                      SlideScribe AI
-                      </Link>
-                      </span>
+                    <Link to="/" className="text-neutral-900">SlideScribe AI</Link>
                 </div>
 
                 {/* Desktop Navigation */}
@@ -73,9 +67,11 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
             {/* Mobile Navigation Menu */}
             <ul
                 className={
-                    nav
-                        ? 'block md:hidden border-r border-r-gray-900 ease-in-out duration-1000 p-h'
-                        : 'ease-in-out hidden duration-1000'
+                    `
+                        overflow-hidden
+                        border-r border-r-gray-900 ease-in-out duration-1000
+                        ${visible ? "p-h" : "h-0"}
+                    `
                 }
             >
                 {getScreens('block py-4 text-center')}
