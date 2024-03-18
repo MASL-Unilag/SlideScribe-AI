@@ -4,7 +4,7 @@ export default function HomeWhySection() {
             className="flex flex-col justify-center items-center m-auto mt-16 md:mt-[9.25rem] w-full md:w-h px-h md:px-0"
         >
             <h1 className="text-heading font-medium text-center mb-5 text-decorated">
-                Why SlideScribe AI solution?
+                Why SlydeGen AI solution?
             </h1>
 
             <p className="text-body text-center w-full md:w-sh mb-12">
