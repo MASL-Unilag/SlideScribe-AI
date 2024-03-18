@@ -24,8 +24,8 @@ export default function Footer() {
             >
                 <div className="flex flex-col justify-between min-h-full gap-4">
                     <div className="flex items-center gap-3 font-medium text-body">
-                        <img src={logo} alt="SlideScribe AI" className={imageClass}/>
-                        <h3>SlideScribe AI</h3>
+                        <img src={logo} alt="SlydeGen AI" className={imageClass}/>
+                        <h3>SlydeGen AI</h3>
                     </div>
                 </div>
                 <div className="flex flex-col min-w-full justify-start gap-4 text-body">
@@ -39,7 +39,7 @@ export default function Footer() {
                 </div>
                 <Links title="Help & Support" links={["FAQs", "Terms", "Privacy"]}/>
                 <p className="text-neutral-900 font-medium mt-10 text-body">
-                    &copy; {new Date().getFullYear()} SlideScribe
+                    &copy; {new Date().getFullYear()} SlydeGen
                     AI. All rights reserved.
                 </p>
             </div>

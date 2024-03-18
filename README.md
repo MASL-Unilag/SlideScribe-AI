@@ -1,4 +1,4 @@
-### SLIDESCRIBE
+### SlydeGen
 
 ### Project Purpose
 

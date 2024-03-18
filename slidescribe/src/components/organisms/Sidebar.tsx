@@ -30,9 +30,9 @@ export default function Sidebar() {
             >
                 <div className="w-full p-4 flex items-center justify-between border-b border-neutral-50">
                     <div className="flex-1 flex gap-3 items-center">
-                        <img src={logo} alt="SlideScribe AI Logo"/>
+                        <img src={logo} alt="SlydeGen AI Logo"/>
                         <h2 className="font-medium text-sm">
-                            <Link to="/">SlideScribe AI</Link>
+                            <Link to="/">SlydeGen AI</Link>
                         </h2>
                     </div>
                     {navigationButton}

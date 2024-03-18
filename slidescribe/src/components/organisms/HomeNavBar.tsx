@@ -47,8 +47,8 @@ export default function Navigation({currentScreen}: { currentScreen?: string }) 
 
                 {/* Logo */}
                 <div className="flex gap-3 items-center">
-                    <img src={logo} alt="SlideScribe AI"/>
-                    <Link to="/" className="text-neutral-900">SlideScribe AI</Link>
+                    <img src={logo} alt="SlydeGen AI"/>
+                    <Link to="/" className="text-neutral-900">SlydeGen AI</Link>
                 </div>
 
                 {/* Desktop Navigation */}
