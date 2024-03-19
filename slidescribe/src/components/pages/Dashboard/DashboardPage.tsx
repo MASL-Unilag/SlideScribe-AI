@@ -2,8 +2,8 @@ import Button from "../../organisms/Button.tsx";
 import UploadDialog from "./UploadDialog.tsx";
 import { useEffect, useState } from "react";
 import { useSidebar } from "./Dashboard.element.ts";
-import axios, { AxiosRequestConfig } from "axios";
-import apiEndpoints from "../../../constants/apiEndpoints.ts";
+// import axios, { AxiosRequestConfig } from "axios";
+// import apiEndpoints from "../../../constants/apiEndpoints.ts";
 import Slide, { SlideProps } from "../../organisms/Slide.tsx";
 
 export default function DashboardPage() {
@@ -45,30 +45,30 @@ export default function DashboardPage() {
       url: "https://scribeslides.blob.core.windows.net/scribecontainer/The%20Evolution%20of%20E-Commerce%3A%20Transforming%20Retail%20in%20the%20Digital%20Age.pptx",
     },
   ];
-  const [slidesInfo, setSlideInfo] = useState<SlideProps[]>(slides);
+  const [slidesInfo] = useState<SlideProps[]>(slides);
 
-  const fetchSlides = async (userId: string) => {
-    try {
-      const baseUrl = apiEndpoints.slide;
+  // const fetchSlides = async (userId: string) => {
+  //   try {
+  //     const baseUrl = apiEndpoints.slide;
 
-      const apiKey = JSON.parse(localStorage.getItem("token")!).accessToken;
+  //     const apiKey = JSON.parse(localStorage.getItem("token")!).accessToken;
 
-      const config: AxiosRequestConfig = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `${baseUrl}`,
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      const res = await axios.request(config);
-      console.log(res);
-      return res.data();
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  };
+  //     const config: AxiosRequestConfig = {
+  //       method: "get",
+  //       maxBodyLength: Infinity,
+  //       url: `${baseUrl}`,
+  //       headers: {
+  //         Authorization: `Bearer ${apiKey}`,
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     };
+  //     const res = await axios.request(config);
+  //     console.log(res);
+  //     return res.data();
+  //   } catch (err) {
+  //     console.error("Error:", err);
+  //   }
+  // };
 
   useEffect(() => {
     // const userId = JSON.parse(localStorage.getItem("user")!).user_id;
