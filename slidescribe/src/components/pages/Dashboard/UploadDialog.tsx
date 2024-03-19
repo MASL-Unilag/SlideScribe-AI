@@ -24,9 +24,9 @@ export default function UploadDialog({ isOpen, setIsOpen }: UploadDialogProps) {
   const [subject, setSubject] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [includePictures, setIncludePictures] = useState(false);
-  const [documentStyle, setDocumentStyle] = useState("bullet-points");
+  // const [documentStyle, setDocumentStyle] = useState("bullet-points");
   const [incomingDocumentCategory, setIncomingDocumentCategory] =
-    useState("PLAIN");
+    useState("Text format");
   const [outputLanguage, setOutputLanguage] = useState("english");
 
   const [nextButton, setNextButton] = useState({
@@ -82,15 +82,23 @@ export default function UploadDialog({ isOpen, setIsOpen }: UploadDialogProps) {
     try {
       setProgress(0);
 
+      const convDocuCat = (format: string) => {
+        if (format == "Text format") return "PLAIN";
+        return "OCR";
+      };
+
       const formData = new FormData();
       formData.append("file", file!);
       formData.append("topic", topic);
-      formData.append("includeImages", includePictures.toString());
-      formData.append("noOfPages", numberOfPages.toString());
+      formData.append("includeImages", "false");
+      formData.append("noOfPages", "12");
       formData.append("outputLanguage", outputLanguage);
-      formData.append("outputStyle", documentStyle);
+      formData.append("outputStyle", "bullet-points");
       formData.append("context", subject);
-      formData.append("incomingDocumentCategory", incomingDocumentCategory);
+      formData.append(
+        "incomingDocumentCategory",
+        convDocuCat(incomingDocumentCategory)
+      );
 
       const accessToken = JSON.parse(
         localStorage.getItem("token")!
@@ -199,8 +207,8 @@ export default function UploadDialog({ isOpen, setIsOpen }: UploadDialogProps) {
                   setNumberOfPages={setNumberOfPages}
                   includePictures={includePictures}
                   setIncludePictures={setIncludePictures}
-                  documentStyle={documentStyle}
-                  setDocumentStyle={setDocumentStyle}
+                  // documentStyle={documentStyle}
+                  // setDocumentStyle={setDocumentStyle}
                   incomingDocumentCategory={incomingDocumentCategory}
                   setIncomingDocumentCategory={setIncomingDocumentCategory}
                   outputLanguage={outputLanguage}
