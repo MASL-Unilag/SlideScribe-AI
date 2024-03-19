@@ -4,9 +4,7 @@ export function PresentationPreview({ url, close }: PresentationPreviewProps) {
   return (
     <div>
       <div className="flex justify-between items-center py-4 px-6">
-        <h1 className="text-body text-neutral-0 font-medium">
-          Presentation Preview
-        </h1>
+        <h1 className="text-body font-medium">Presentation Preview</h1>
         <CloseButton close={close} />
       </div>
       <hr className="text-neutral-50" />

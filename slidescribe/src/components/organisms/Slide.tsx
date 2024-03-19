@@ -9,7 +9,7 @@ export interface SlideProps {
   url: string;
 }
 
-export default function Slide({slideInfo}:{slideInfo:SlideProps}) {
+export default function Slide({ slideInfo }: { slideInfo: SlideProps }) {
   const [openPreview, setOpenPreview] = useState<boolean>(false);
 
   const formatStr = (str: string): string => {
@@ -48,8 +48,13 @@ export default function Slide({slideInfo}:{slideInfo:SlideProps}) {
           <p className="text-xs mt-2">{formatDate(slideInfo.date)}</p>
         </div>
       </div>
+
       <Overlays
-        children={<PresentationPreview url={slideInfo.url} close={toggleClose} />}
+        children={
+          <div className="modal_content bg-neutral-0">
+            <PresentationPreview url={slideInfo.url} close={toggleClose} />
+          </div>
+        }
         isOpen={openPreview}
       />
     </>

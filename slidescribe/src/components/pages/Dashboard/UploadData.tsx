@@ -8,21 +8,20 @@ export default function UploadData({
   setTopic,
   subject,
   setSubject,
-  numberOfPages,
-  setNumberOfPages,
-  includePictures,
-  setIncludePictures,
-  documentStyle,
+  // numberOfPages,
+  // setNumberOfPages,
+  // includePictures,
+  // setIncludePictures,
+  // documentStyle,
   incomingDocumentCategory,
   setIncomingDocumentCategory,
-  setDocumentStyle,
+  // setDocumentStyle,
   outputLanguage,
   setOutputLanguage,
 }: UploadDataProps) {
-  const documentStyles = ["bullet-points", "short-paragraphs"];
-  const incomingDocumentCategories = ["OCR", "AUDIO", "PLAIN"];
+  // const documentStyles = ["bullet-points", "short-paragraphs"];
+  const incomingDocumentCategories = ["Image format", "Text format"];
   const outputLanguages = ["english", "yoruba", "igbo", "hausa"];
-
   const formSectionClassName = "flex flex-col";
   const labelClassName = "text-caption text-neutral-900";
   const inputClassName =
@@ -70,7 +69,7 @@ export default function UploadData({
           />
         </div>
 
-        <div className={formSectionClassName}>
+        {/* <div className={formSectionClassName}>
           <label htmlFor="number-of-pages" className={labelClassName}>
             Number of pages (Maximum is 12)
           </label>
@@ -85,17 +84,18 @@ export default function UploadData({
             onChange={(e) => setNumberOfPages(parseInt(e.target.value))}
             required={true}
           />
-        </div>
+        </div> */}
 
         <RadioGroup
           name="language-style"
+          title="Choose preffered language"
           options={outputLanguages}
           selected={outputLanguage}
           setSelected={setOutputLanguage}
           getLabel={(option) => capitalize(option)}
         />
 
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <input
             id="pictures"
             type="checkbox"
@@ -106,25 +106,28 @@ export default function UploadData({
           <label htmlFor="pictures" className="text-neutral-900">
             Do you want pictures included?
           </label>
-        </div>
+        </div> */}
 
-        <RadioGroup
+        {/* <RadioGroup
           name="document-style"
           options={documentStyles}
           selected={documentStyle}
           setSelected={setDocumentStyle}
+          title="Choose document style"
           getLabel={(option) =>
             option
               .split("-")
               .map((word) => capitalize(word))
               .join(" ")
           }
-        />
+        /> */}
+
         <RadioGroup
           name="document-category"
           options={incomingDocumentCategories}
           selected={incomingDocumentCategory}
           setSelected={setIncomingDocumentCategory}
+          title="Choose file format"
           getLabel={(option) =>
             option
               .split("-")
@@ -147,8 +150,8 @@ type UploadDataProps = {
   setNumberOfPages: React.Dispatch<React.SetStateAction<number>>;
   includePictures: boolean;
   setIncludePictures: React.Dispatch<React.SetStateAction<boolean>>;
-  documentStyle: string;
-  setDocumentStyle: React.Dispatch<React.SetStateAction<string>>;
+  // documentStyle: string;
+  // setDocumentStyle: React.Dispatch<React.SetStateAction<string>>;
   outputLanguage: string;
   setOutputLanguage: React.Dispatch<React.SetStateAction<string>>;
   incomingDocumentCategory: string;

@@ -91,7 +91,7 @@ export default function DashboardPage() {
         </div>
       </div>
       <div className="content px-8 py-8">
-        <h3 className="font-medium text-2xl mb-3 text-neutral-700">Recents</h3>
+        <h3 className="font-medium mb-3 text-neutral-700">Recents</h3>
         <div className="flex flex-wrap gap-8">
           {slidesInfo.map((slides: SlideProps) => (
             <Slide slideInfo={slides} key={slides.url} />
