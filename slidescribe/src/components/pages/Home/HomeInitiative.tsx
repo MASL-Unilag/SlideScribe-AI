@@ -7,7 +7,7 @@ export default function HomeInitiative() {
             <h2 className="text-heading2 font-semibold text-center mb-[1.13rem]">An initiative of</h2>
             <div className="flex gap-6">
                 <Company name="Microsoft" logo={Microsoft}/>
-                <Company name="Microsoft ADC" logo={ADC}/>
+                <Company name="" logo={ADC}/>
             </div>
         </section>
     )
