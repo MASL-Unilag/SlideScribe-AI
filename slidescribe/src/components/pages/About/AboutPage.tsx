@@ -1,4 +1,3 @@
-import backgroundImage from "../../../assets/images/team_image.png";
 import abiola from "../../../assets/images/abiola.png";
 import bolu from "../../../assets/images/bolu.png";
 import david from "../../../assets/images/david.png";
